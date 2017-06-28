@@ -1,4 +1,4 @@
-% standard factorization machine
+% robust factorization machine
 % solved by SGD
 % by Faramita @ZJU 2017.6.24
 
@@ -12,11 +12,15 @@ task = 'classification';
 iter_num = 1;
 learning_rate = 1e4;
 t0 = 1e5;
-reg = 1e-4;
 
-factors_num = 10;
-  
+alpha = 1e-1;
+beta = 1e-1;
+
 epoch = 15;
+
+% capped trace norm threshold
+epsilon1 = 5;
+epsilon2 = 1e2;
 
 loss_fm_test = zeros(iter_num, epoch);
 loss_fm_train = zeros(iter_num, epoch);
@@ -28,7 +32,8 @@ for i=1:iter_num
     
     w0 = 0;
     W = zeros(1,p);
-    V = 0.1*randn(p,factors_num);
+    
+    Z = generateSPDmatrix(p);
     
     re_idx = randperm(num_sample);
     X_train = train_X(re_idx,:);
@@ -42,36 +47,51 @@ for i=1:iter_num
             X = X_train(j,:);
             y = Y_train(j,:);
 
-            nz_idx = find(X);
-
-            tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:));
-            factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
-            y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
+%             nz_idx = find(X);
+            y_predict = w0 + W*X' + sum(sum(X'*X.*Z))/2;
 
             idx = (t-1)*num_sample + j;
+            
             % SGD update
             if strcmp(task, 'classification')
+                
+                % log loss
                 err = sigmf(y*y_predict,[1,0]);
                 loss = loss - log(err);
                 
-                w0_ = learning_rate / (idx + t0) * ((err-1)*y);
+                % compute d
+                bias = y_predict - y;
+                
+%                 if abs(bias) < epsilon1
+%                     d = 1/(bias^2);
+%                 else
+%                     d = 0;
+%                 end
+
+                d = 1;
+                
+                w0_ = learning_rate / (idx + t0) * (d * (err-1)*y);
                 w0 = w0 - w0_;
-                W_ = learning_rate / (idx + t0) * ((err-1)*y*X(nz_idx) + 2 * reg * W(nz_idx));
-                W(nz_idx) = W(nz_idx) - W_;
-                V_ = learning_rate / (idx + t0) * ((err-1)*y*(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * reg * V(nz_idx,:));
-                V(nz_idx,:) = V(nz_idx,:) - V_;
+                W_ = learning_rate / (idx + t0) * (d * (err-1)*y*X + alpha * W);
+                W = W - W_;
+                
+                % truncated SVD
+%                 [U,S,V] = truncated_svd(Z, epsilon2);
+%                 Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X)+beta * U' * V .* Z);
+                Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X));
+                Z = Z- Z_;
             end
             
             if strcmp(task, 'regression')
                 err = y_predict - y;
                 loss = loss + err^2;
                 
-                w0_ = learning_rate / (idx + t0) * 2 * err;
+                w0_ = learning_rate / (idx + t0) * (2 * err);
                 w0 = w0 - w0_;
-                W_ = learning_rate / (idx + t0) * (2 * err * X);
+                W_ = learning_rate / (idx + t0) * (2 * err * X(nz_idx) + 2 * alpha * W(nz_idx));
                 W = W - W_;
-                V_ = learning_rate / (idx + t0) * (2*err*(repmat(X',1,factors_num).*(repmat(X*V,p,1)-repmat(X',1,factors_num).*V)));
-                V = V - V_;
+%                 V_ = learning_rate / (idx + t0) * (2 * err *y*(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * alpha * V(nz_idx,:));
+%                 V(nz_idx,:) = V(nz_idx,:) - V_;
             end
             
         end
@@ -87,11 +107,9 @@ for i=1:iter_num
 
             X = test_X(k,:);
             y = test_Y(k,:);
-            nz_idx = find(X);
+%             nz_idx = find(X);
 
-            tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:)) ;
-            factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
-            y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
+            y_predict = w0 + W*X' + sum(sum(X'*X.*Z))/2;
 
             if strcmp(task, 'classification')
                 err = sigmf(y*y_predict,[1,0]);
