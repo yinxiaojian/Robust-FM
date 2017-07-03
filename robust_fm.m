@@ -4,7 +4,7 @@
 
 rng('default');
 
-task = 'classification';
+task = 'regression';
 
 [num_sample, p] = size(train_X);
 
@@ -20,11 +20,11 @@ epoch = 15;
 
 % capped trace norm threshold
 epsilon1 = 5;
-epsilon2 = 1e2;
+epsilon2 = 20;
 
 loss_fm_test = zeros(iter_num, epoch);
 loss_fm_train = zeros(iter_num, epoch);
-accuracy_fm = zeros(iter_num, epoch);
+accuracy_fm = zeros(iter_num, epoch); 
 
 for i=1:iter_num
     
@@ -34,6 +34,7 @@ for i=1:iter_num
     W = zeros(1,p);
     
     Z = generateSPDmatrix(p);
+%     Z = zeros(p);
     
     re_idx = randperm(num_sample);
     X_train = train_X(re_idx,:);
@@ -48,7 +49,7 @@ for i=1:iter_num
             y = Y_train(j,:);
 
 %             nz_idx = find(X);
-            y_predict = w0 + W*X' + sum(sum(X'*X.*Z))/2;
+            y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
 
             idx = (t-1)*num_sample + j;
             
@@ -58,6 +59,22 @@ for i=1:iter_num
                 % log loss
                 err = sigmf(y*y_predict,[1,0]);
                 loss = loss - log(err);
+                
+                w0_ = learning_rate / (idx + t0) * (d * (err-1)*y);
+                w0 = w0 - w0_;
+                W_ = learning_rate / (idx + t0) * (d * (err-1)*y*X + alpha * W);
+                W = W - W_;
+                
+                % truncated SVD
+                [U,S,V] = truncated_svd(Z, epsilon2);
+                Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X)+beta * U' * V .* Z);
+%                 Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X));
+                Z = Z - Z_;
+            end
+            
+            if strcmp(task, 'regression')
+                err = y_predict - y;
+                loss = loss + err^2;
                 
                 % compute d
                 bias = y_predict - y;
@@ -70,28 +87,23 @@ for i=1:iter_num
 
                 d = 1;
                 
-                w0_ = learning_rate / (idx + t0) * (d * (err-1)*y);
+                w0_ = learning_rate / (idx + t0) * (d * 2 * err *y);
                 w0 = w0 - w0_;
-                W_ = learning_rate / (idx + t0) * (d * (err-1)*y*X + alpha * W);
+                W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
                 W = W - W_;
                 
                 % truncated SVD
-%                 [U,S,V] = truncated_svd(Z, epsilon2);
-%                 Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X)+beta * U' * V .* Z);
-                Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X));
-                Z = Z- Z_;
-            end
-            
-            if strcmp(task, 'regression')
-                err = y_predict - y;
-                loss = loss + err^2;
+                P = truncated_svd(Z, epsilon2);
+                Z_ = learning_rate / (idx + t0) * (d * 2 * err .*(X'*X)+beta * P .* Z);
+%                 Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X));
+                Z = Z - Z_;
                 
-                w0_ = learning_rate / (idx + t0) * (2 * err);
-                w0 = w0 - w0_;
-                W_ = learning_rate / (idx + t0) * (2 * err * X(nz_idx) + 2 * alpha * W(nz_idx));
-                W = W - W_;
-%                 V_ = learning_rate / (idx + t0) * (2 * err *y*(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * alpha * V(nz_idx,:));
-%                 V(nz_idx,:) = V(nz_idx,:) - V_;
+                % project on PSD cone!
+                [UU, D, VV] = svd(Z);
+                d = real(diag(D));
+                d(d < 0) = 0;
+                Z =(UU * diag(d) * VV');
+                
             end
             
         end

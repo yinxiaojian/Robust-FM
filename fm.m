@@ -4,7 +4,7 @@
 
 rng('default');
 
-task = 'classification';
+task = 'regression';
 
 [num_sample, p] = size(train_X);
 
@@ -66,12 +66,12 @@ for i=1:iter_num
                 err = y_predict - y;
                 loss = loss + err^2;
                 
-                w0_ = learning_rate / (idx + t0) * 2 * err;
+                w0_ = learning_rate / (idx + t0) * (2 * err);
                 w0 = w0 - w0_;
-                W_ = learning_rate / (idx + t0) * (2 * err * X);
-                W = W - W_;
-                V_ = learning_rate / (idx + t0) * (2*err*(repmat(X',1,factors_num).*(repmat(X*V,p,1)-repmat(X',1,factors_num).*V)));
-                V = V - V_;
+                W_ = learning_rate / (idx + t0) * (2 * err *X(nz_idx) + 2 * reg * W(nz_idx));
+                W(nz_idx) = W(nz_idx) - W_;
+                V_ = learning_rate / (idx + t0) * (2 * err *(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * reg * V(nz_idx,:));
+                V(nz_idx,:) = V(nz_idx,:) - V_;
             end
             
         end
