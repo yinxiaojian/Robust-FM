@@ -104,8 +104,8 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             W = W - W_;
 
                             % truncated SVD
-                            [P,d] = truncated_svd(Z, epsilon2);
-                            rank = rank + d;
+                            [P,r] = truncated_svd(Z, epsilon2);
+                            rank = rank + r;
                             
                             Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * P .* Z);
                             Z = Z - Z_;

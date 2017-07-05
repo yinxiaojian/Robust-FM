@@ -37,14 +37,20 @@ pars.alpha = 1e-3;
 
 pars.learning_rate = 1e3;
 pars.t0 = 1e5;
+
+pars.w0 = 0;
+pars.W = zeros(1,p);
+pars.Z = zeros(p);
+
 [model_no_capped, metric_no_capped] = capped_fm(training, validation, pars);
 
 %% capped norm
 rng('default');
 disp('Training with capped norm...')
-pars.beta = 1e-3;
+pars.alpha = 1e-3;
+pars.beta = 1e-2;
 pars.epsilon1 = 5;
-pars.epsilon2 = 1;
+pars.epsilon2 = 0.2;
 
 pars.learning_rate = 1e2;
 pars.t0 = 1e5;
@@ -52,5 +58,9 @@ pars.t0 = 1e5;
 pars.w0 = model_no_capped.w0;
 pars.W = model_no_capped.W;
 pars.Z = model_no_capped.Z;
+
+% pars.w0 = 0;
+% pars.W = zeros(1,p);
+% pars.Z = zeros(p);
 [model_capped, metric_capped] = capped_fm(training, validation, pars);
 
