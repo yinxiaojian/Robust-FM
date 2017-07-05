@@ -137,12 +137,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             rank_fm(i, t) = rank/num_sample;
             outlier_fm(i,t) = outlier/num_sample;
             
-            if beta ~= 0
-                fprintf('[iter %d epoch %2d]---average rank:%.4f\toutlier percentage:%.4f\ttrain loss:%.4f\t',i, t, rank_fm(i,t), outlier_fm(i,t), loss_fm_train(i,t));
-            else
-                fprintf('[iter %d epoch %2d]---train loss:%.4f\t',i, t, loss_fm_train(i,t));
-            end
-            
+            fprintf('[iter %d epoch %2d]---train loss:%.4f\t',i, t, loss_fm_train(i,t));  
 
             % validate
             loss = 0;
@@ -173,7 +168,12 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             end
 
             loss_fm_test(i,t) = loss / num_sample_test;
-            fprintf('test loss:%.4f\t', loss_fm_test(i,t));
+            if beta~=0
+                fprintf('test loss:%.4f\taverage rank:%.4f\toutlier percentage:%.4f\t', loss_fm_test(i,t), rank_fm(i,t), outlier_fm(i,t));
+            else
+                fprintf('test loss:%.4f\t', loss_fm_test(i,t));
+            end
+            
             if strcmp(task, 'classification')
                 accuracy_fm(i,t) = correct_num/num_sample_test;
                 fprintf('test accuracy:%.4f', accuracy_fm(i,t));
