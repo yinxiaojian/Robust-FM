@@ -14,13 +14,13 @@ learning_rate = 1e4;
 t0 = 1e5;
 
 alpha = 1e-1;
-beta = 1e-1;
+beta = 1e-3;
 
 epoch = 15;
 
 % capped trace norm threshold
 epsilon1 = 5;
-epsilon2 = 20;
+epsilon2 = 22;
 
 loss_fm_test = zeros(iter_num, epoch);
 loss_fm_train = zeros(iter_num, epoch);
@@ -87,15 +87,15 @@ for i=1:iter_num
 
                 d = 1;
                 
-                w0_ = learning_rate / (idx + t0) * (d * 2 * err *y);
+                w0_ = learning_rate / (idx + t0) * (d * 2 * err);
                 w0 = w0 - w0_;
                 W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
                 W = W - W_;
                 
                 % truncated SVD
-                P = truncated_svd(Z, epsilon2);
-                Z_ = learning_rate / (idx + t0) * (d * 2 * err .*(X'*X)+beta * P .* Z);
-%                 Z_ = learning_rate / (idx + t0) * (d * (err-1)*y.*(X'*X));
+%                 P = truncated_svd(Z, epsilon2);
+%                 Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * P .* Z);
+                Z_ = learning_rate / (idx + t0) * (d * 2 * err .*(X'*X));
                 Z = Z - Z_;
                 
                 % project on PSD cone!
@@ -121,7 +121,7 @@ for i=1:iter_num
             y = test_Y(k,:);
 %             nz_idx = find(X);
 
-            y_predict = w0 + W*X' + sum(sum(X'*X.*Z))/2;
+            y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
 
             if strcmp(task, 'classification')
                 err = sigmf(y*y_predict,[1,0]);
