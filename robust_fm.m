@@ -19,8 +19,8 @@ beta = 1e-3;
 epoch = 15;
 
 % capped trace norm threshold
-epsilon1 = 5;
-epsilon2 = 22;
+epsilon1 = 2;
+epsilon2 = 10;
 
 loss_fm_test = zeros(iter_num, epoch);
 loss_fm_train = zeros(iter_num, epoch);
@@ -33,8 +33,8 @@ for i=1:iter_num
     w0 = 0;
     W = zeros(1,p);
     
-    Z = generateSPDmatrix(p);
-%     Z = zeros(p);
+%     Z = generateSPDmatrix(p);
+    Z = zeros(p);
     
     re_idx = randperm(num_sample);
     X_train = train_X(re_idx,:);
@@ -77,32 +77,33 @@ for i=1:iter_num
                 loss = loss + err^2;
                 
                 % compute d
-                bias = y_predict - y;
-                
-%                 if abs(bias) < epsilon1
-%                     d = 1/(bias^2);
-%                 else
-%                     d = 0;
-%                 end
+%                 bias = y_predict - y;
 
-                d = 1;
+                if abs(err) < epsilon1
+                    d = 1;
+                else
+                    d = 0;
+                end
                 
-                w0_ = learning_rate / (idx + t0) * (d * 2 * err);
-                w0 = w0 - w0_;
-                W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
-                W = W - W_;
+                if d ~=0
+                    w0_ = learning_rate / (idx + t0) * (d * 2 * err);
+                    w0 = w0 - w0_;
+                    W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
+                    W = W - W_;
+
+                    % truncated SVD
+                    P = truncated_svd(Z, epsilon2);
+                    Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * P .* Z);
+    %                 Z_ = learning_rate / (idx + t0) * (d * 2 * err .*(X'*X));
+                    Z = Z - Z_;
+
+                    % project on PSD cone!
+                    [UU, D, VV] = svd(Z);
+                    d = real(diag(D));
+                    d(d < 0) = 0;
+                    Z =(UU * diag(d) * VV');
+                end
                 
-                % truncated SVD
-%                 P = truncated_svd(Z, epsilon2);
-%                 Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * P .* Z);
-                Z_ = learning_rate / (idx + t0) * (d * 2 * err .*(X'*X));
-                Z = Z - Z_;
-                
-                % project on PSD cone!
-                [UU, D, VV] = svd(Z);
-                d = real(diag(D));
-                d(d < 0) = 0;
-                Z =(UU * diag(d) * VV');
                 
             end
             

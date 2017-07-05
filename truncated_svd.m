@@ -1,4 +1,4 @@
-function [ P ] = truncated_svd( data, epsilon )
+function [ P, d ] = truncated_svd( data, epsilon )
 %TRUNCATED_SVD
 %   data:       matrix to be applied truncated svd
 %   epsilon:    threshold to truncated eig values
@@ -6,8 +6,14 @@ function [ P ] = truncated_svd( data, epsilon )
 
 singular_values = diag(S);
 
-index = find(singular_values <= epsilon);
+index = singular_values <= epsilon;
 new_S = zeros(length(singular_values),1);
-new_S(index) = 0.5*(singular_values(index).^2+eps).^(-0.5);
+d = length(data) - sum(index);
+
+new_S(index) = singular_values(index);
 P = U*diag(new_S)*U';
+
+% U = U(singular_values <= epsilon,:);
+% P = U'*U;
+
 end

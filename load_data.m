@@ -71,14 +71,14 @@ usps_test = 'data/usps/test_data';
 % training_data = banana_train;
 % test_data = banana_test;
 
-% training_data = magic04_train;
-% test_data = magic04_test;
+training_data = magic04_train;
+test_data = magic04_test;
 
 % training_data = phishing_train;
 % test_data = phishing_test;
 
-training_data = ijcnn_train;
-test_data = ijcnn_test;
+% training_data = ijcnn_train;
+% test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;
