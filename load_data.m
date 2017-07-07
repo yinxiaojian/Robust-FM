@@ -25,6 +25,10 @@ netflix_test_5K5K = 'data/netflix_half_half/test_data';
 rcv1_train = 'data/rcv1/train_data';
 rcv1_test = 'data/rcv1/test_data';
 
+% Covtype
+covtype_train = 'data/covtype/train_data';
+covtype_test = 'data/covtype/test_data';
+
 %% classification task
 % adult
 adult_train = 'data/adult/training_data';
@@ -71,14 +75,14 @@ usps_test = 'data/usps/test_data';
 % training_data = banana_train;
 % test_data = banana_test;
 
-training_data = magic04_train;
-test_data = magic04_test;
+% training_data = magic04_train;
+% test_data = magic04_test;
 
 % training_data = phishing_train;
 % test_data = phishing_test;
 
-% training_data = ijcnn_train;
-% test_data = ijcnn_test;
+training_data = ijcnn_train;
+test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;
@@ -91,6 +95,9 @@ test_data = magic04_test;
 % 
 % training_data = usps_train;
 % test_data = usps_test;
+
+% training_data = covtype_train;
+% test_data = covtype_test;
 
 load(training_data);
 load(test_data); 

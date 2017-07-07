@@ -30,6 +30,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
     accuracy_fm = zeros(iter_num, epoch);
     rank_fm = zeros(iter_num, epoch);
     outlier_fm = zeros(iter_num, epoch);
+    obj_fm = zeros(iter_num, epoch);
 
     for i=1:iter_num
 
@@ -54,6 +55,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             loss = 0;
             rank = 0;
             outlier = 0;
+            obj = 0.0;
             
             for j=1:num_sample
 
@@ -85,6 +87,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                 if strcmp(task, 'regression')
                     err = y_predict - y;
                     loss = loss + err^2;
+                    
 
                     % capped norm
                     if beta ~= 0
@@ -102,12 +105,15 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             w0 = w0 - w0_;
                             W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
                             W = W - W_;
+                            
 
                             % truncated SVD
-                            [P,r] = truncated_svd(Z, epsilon2);
+                            [U,S,r] = truncated_svd(Z, epsilon2);
                             rank = rank + r;
                             
-                            Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * P .* Z);
+                            obj = obj + err^2 + alpha/2*(W*W')+beta/2*trace(U'*(Z*Z')*U);
+                            
+                            Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * (U'*U) .* Z);
                             Z = Z - Z_;
 
                             % project on PSD cone!
@@ -136,6 +142,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             loss_fm_train(i,t) = loss / num_sample;
             rank_fm(i, t) = rank/num_sample;
             outlier_fm(i,t) = outlier/num_sample;
+            obj_fm(i,t) = obj/num_sample;
             
             fprintf('[iter %d epoch %2d]---train loss:%.4f\t',i, t, loss_fm_train(i,t));  
 
@@ -169,7 +176,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 
             loss_fm_test(i,t) = loss / num_sample_test;
             if beta~=0
-                fprintf('test loss:%.4f\taverage rank:%.4f\toutlier percentage:%.4f\t', loss_fm_test(i,t), rank_fm(i,t), outlier_fm(i,t));
+                fprintf('test loss:%.4f\taverage rank:%.4f\toutlier percentage:%.4f\tobj:%.4f', loss_fm_test(i,t), rank_fm(i,t), outlier_fm(i,t), obj_fm(i,t));
             else
                 fprintf('test loss:%.4f\t', loss_fm_test(i,t));
             end
