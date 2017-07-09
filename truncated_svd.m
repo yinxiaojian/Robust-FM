@@ -13,6 +13,7 @@ d = length(data) - sum(index);
 new_S(index) = singular_values(index);
 % P = U*diag(new_S)*U';
 S = diag(new_S);
+U = U(index,:);
 
 % U = U(singular_values <= epsilon,:);
 % P = U'*U;

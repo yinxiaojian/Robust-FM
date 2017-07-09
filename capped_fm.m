@@ -111,7 +111,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             [U,S,r] = truncated_svd(Z, epsilon2);
                             rank = rank + r;
                             
-                            obj = obj + err^2 + alpha/2*(W*W')+beta/2*trace(U'*(Z*Z')*U);
+                            obj = obj + err^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                             
                             Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * (U'*U) .* Z);
                             Z = Z - Z_;

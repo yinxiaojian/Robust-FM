@@ -56,6 +56,10 @@ mnist_test = 'data/mnist/test_data';
 usps_train = 'data/usps/train_data';
 usps_test = 'data/usps/test_data';
 
+
+%% regression task
+ONP_train = 'data/OnlineNewsPopularity/train_data';
+ONP_test = 'data/OnlineNewsPopularity/test_data';
 %% 
 % training_data = ml_100k_training;
 % test_data = ml_100k_test;
@@ -75,14 +79,14 @@ usps_test = 'data/usps/test_data';
 % training_data = banana_train;
 % test_data = banana_test;
 
-% training_data = magic04_train;
-% test_data = magic04_test;
+training_data = magic04_train;
+test_data = magic04_test;
 
 % training_data = phishing_train;
 % test_data = phishing_test;
 
-training_data = ijcnn_train;
-test_data = ijcnn_test;
+% training_data = ijcnn_train;
+% test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;
@@ -98,6 +102,9 @@ test_data = ijcnn_test;
 
 % training_data = covtype_train;
 % test_data = covtype_test;
+
+% training_data = ONP_train;
+% test_data = ONP_test;
 
 load(training_data);
 load(test_data); 
