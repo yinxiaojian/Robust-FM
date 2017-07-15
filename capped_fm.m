@@ -169,7 +169,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 
                 if strcmp(task, 'regression')
                     err = y_predict - y;
-                    loss = loss + err^2;
+%                     loss = loss + err^2;
+                    % absolute loss
+                    loss = loss + abs(err);
                 end
 
             end
