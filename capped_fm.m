@@ -93,7 +93,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     if beta ~= 0
                         
                         if abs(err) < epsilon1
-                            d = 1;
+                            d = 1/abs(err);
                         else
                             d = 0;
                             outlier = outlier + 1;
@@ -111,7 +111,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             [U,S,r] = truncated_svd(Z, epsilon2);
                             rank = rank + r;
                             
-                            obj = obj + err^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
+                            obj = obj + d*err^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                             
                             Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * (U'*U) .* Z);
                             Z = Z - Z_;
@@ -142,7 +142,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             loss_fm_train(i,t) = loss / num_sample;
             rank_fm(i, t) = rank/num_sample;
             outlier_fm(i,t) = outlier/num_sample;
-            obj_fm(i,t) = obj/num_sample;
+            obj_fm(i,t) = obj/(num_sample-outlier);
             
             fprintf('[iter %d epoch %2d]---train loss:%.4f\t',i, t, loss_fm_train(i,t));  
 
@@ -176,7 +176,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 
             loss_fm_test(i,t) = loss / num_sample_test;
             if beta~=0
-                fprintf('test loss:%.4f\taverage rank:%.4f\toutlier percentage:%.4f\tobj:%.4f', loss_fm_test(i,t), rank_fm(i,t), outlier_fm(i,t), obj_fm(i,t));
+                fprintf('test loss:%.4f\taverage rank:%7.4f\toutlier percentage:%.4f\tobj:%.4f', loss_fm_test(i,t), rank_fm(i,t), outlier_fm(i,t), obj_fm(i,t));
             else
                 fprintf('test loss:%.4f\t', loss_fm_test(i,t));
             end

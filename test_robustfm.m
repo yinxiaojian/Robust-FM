@@ -18,13 +18,13 @@ pars.epsilon2 = 20;
 
 %% fm
 rng('default');
-pars.reg = 1e-1;
+pars.reg = 1e-4;
 pars.factors_num = 10;
 pars.w0 = 0;
 pars.W = zeros(1,p);
 pars.V = zeros(p,pars.factors_num);
 
-pars.learning_rate = 1e2;
+pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -36,7 +36,7 @@ disp('Training without capped norm...')
 pars.beta = 0;
 pars.alpha = 1e-2;
 
-pars.learning_rate = 1e1;
+pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
 pars.w0 = 0;
@@ -48,10 +48,10 @@ pars.Z = zeros(p);
 %% capped norm
 rng('default');
 disp('Training with capped norm...')
-pars.alpha = 1e-1;
-pars.beta = 1e-1;
-pars.epsilon1 = 10;
-pars.epsilon2 = 1e-1;
+pars.alpha = 1e-3;
+pars.beta = 1e-3;
+pars.epsilon1 = 2;
+pars.epsilon2 = 1e-2;
 
 pars.learning_rate = 1e2;
 pars.t0 = 1e5;
