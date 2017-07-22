@@ -100,8 +100,8 @@ test_data = magic04_test;
 % training_data = usps_train;
 % test_data = usps_test;
 
-training_data = covtype_train;
-test_data = covtype_test;
+% training_data = covtype_train;
+% test_data = covtype_test;
 
 % training_data = ONP_train;
 % test_data = ONP_test;

@@ -6,12 +6,10 @@ validation.test_X = test_X;
 validation.test_Y = test_Y;
 
 % pack paras
-pars.task = 'regression';
+pars.task = 'classification';
 pars.iter_num = 1;
 pars.epoch = 10;
-
-pars.epsilon1 = 2;
-pars.epsilon2 = 20;
+pars.minibatch = 10;
 
 % initial model
 [~, p] = size(train_X);
@@ -24,7 +22,7 @@ pars.w0 = 0;
 pars.W = zeros(1,p);
 pars.V = zeros(p,pars.factors_num);
 
-pars.learning_rate = 1e2;
+pars.learning_rate = 1e4;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -35,6 +33,10 @@ rng('default');
 disp('Training without capped norm...')
 pars.beta = 0;
 pars.alpha = 1e-2;
+
+pars.epsilon1 = 1e-1;
+pars.epsilon2 = 1;
+pars.epsilon3 = 20;
 
 pars.learning_rate = 1e3;
 pars.t0 = 1e5;
@@ -48,21 +50,23 @@ pars.Z = zeros(p);
 %% capped norm
 rng('default');
 disp('Training with capped norm...')
-pars.alpha = 1e-3;
-pars.beta = 1e-3;
-pars.epsilon1 = 1.5;
-pars.epsilon2 = 5e-1;
+pars.alpha = 1e-2;
+pars.beta = 1e-2;
 
-pars.learning_rate = 1e2;
+pars.epsilon1 = 1e-2;
+pars.epsilon2 = 4;
+pars.epsilon3 = 0.05;
+
+pars.learning_rate = 1e4;
 pars.t0 = 1e5;
 
-pars.w0 = model_no_capped.w0;
-pars.W = model_no_capped.W;
-pars.Z = model_no_capped.Z;
+% pars.w0 = model_no_capped.w0;
+% pars.W = model_no_capped.W;
+% pars.Z = model_no_capped.Z;
 
-% pars.w0 = 0;
-% pars.W = zeros(1,p);
-% pars.Z = zeros(p);
+pars.w0 = 0;
+pars.W = zeros(1,p);
+pars.Z = zeros(p);
 
 [model_capped, metric_capped] = capped_fm(training, validation, pars);
 

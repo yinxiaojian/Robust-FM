@@ -118,7 +118,7 @@ function [ model, metric ] = fm( training, validation, pars )
             fprintf('test loss:%.4f\t', loss_fm_test(i,t));
             if strcmp(task, 'classification')
                 accuracy_fm(i,t) = correct_num/num_sample_test;
-                fprintf('test accuracy:%.4f', accuracy_fm(i,t));
+                fprintf('\ttest accuracy:%.4f', accuracy_fm(i,t));
             end
 
             fprintf('\n');
