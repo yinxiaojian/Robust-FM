@@ -172,7 +172,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             end
 
             loss_fm_train(i,t) = loss / num_sample;
-            rank_fm(i, t) = rank/num_sample;
+            rank_fm(i, t) = rank/(num_sample-outlier);
             outlier_fm(i,t) = outlier/num_sample;
             noise_fm(i, t) = noise/num_sample;
             obj_fm(i,t) = obj/(num_sample-outlier);

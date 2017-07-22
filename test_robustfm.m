@@ -20,9 +20,9 @@ pars.reg = 1e-4;
 pars.factors_num = 10;
 pars.w0 = 0;
 pars.W = zeros(1,p);
-pars.V = zeros(p,pars.factors_num);
+pars.V = 0.1*randn(p,pars.factors_num);
 
-pars.learning_rate = 1e4;
+pars.learning_rate = 1e5;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -54,7 +54,7 @@ pars.alpha = 1e-2;
 pars.beta = 1e-2;
 
 pars.epsilon1 = 1e-2;
-pars.epsilon2 = 4;
+pars.epsilon2 = 3;
 pars.epsilon3 = 0.05;
 
 pars.learning_rate = 1e4;
