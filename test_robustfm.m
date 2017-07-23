@@ -8,7 +8,7 @@ validation.test_Y = test_Y;
 % pack paras
 pars.task = 'classification';
 pars.iter_num = 1;
-pars.epoch = 10;
+pars.epoch = 50;
 pars.minibatch = 10;
 
 % initial model
@@ -22,7 +22,7 @@ pars.w0 = 0;
 pars.W = zeros(1,p);
 pars.V = 0.1*randn(p,pars.factors_num);
 
-pars.learning_rate = 1e5;
+pars.learning_rate = 1e4;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -55,7 +55,7 @@ pars.beta = 1e-2;
 
 pars.epsilon1 = 1e-2;
 pars.epsilon2 = 3;
-pars.epsilon3 = 0.05;
+pars.epsilon3 = 2;
 
 pars.learning_rate = 1e4;
 pars.t0 = 1e5;

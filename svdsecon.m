@@ -1,4 +1,4 @@
-function [U,S,V] = svdsecon(X,k)
+function [P, d] = svdsecon(X,epsilon)
 % Input:
 % X : m x n matrix
 % k : extracts the first k singular values
@@ -16,17 +16,31 @@ function [U,S,V] = svdsecon(X,k)
 
 %X = bsxfun(@minus,X,mean(X,2));
 [m,n] = size(X);
-assert(k <= m && k <= n, 'k needs to be smaller than size(X,1) and size(X,2)');
+% assert(k <= m && k <= n, 'k needs to be smaller than size(X,1) and size(X,2)');
 
 if  m <= n
     C = X*X';
-    [U,D] = eigs(C,k);
+%     [U,D] = eigs(C,k);
+    [U,~] = eigs(C,0);
+    d = 0;
+    for i=1:m
+        [U_, D_] = eigs(C, i);
+        if sqrt(D_(i,i)) < epsilon
+            d = i-1;
+            break;
+        end
+        U = U_;
+        
+%         D = D_;
+    end
+    P = ones(m,n) - U*U';
     clear C;
     if nargout > 2
-        V = X'*U;
-        s = sqrt(abs(diag(D)));
-        V = bsxfun(@(x,c)x./c, V, s');
-        S = diag(s);
+%         V = X'*U;
+%         s = sqrt(abs(diag(D)));
+%         V = bsxfun(@(x,c)x./c, V, s');
+%         S = diag(s);
+%         P = ones(m,n) - U*U';
     end
 else
     C = X'*X; 
