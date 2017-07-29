@@ -12,7 +12,7 @@ ml_10m_test = 'data/movielens/test_data_10m';
 
 % amazon video
 amazon_video_train = 'data/amazon/training_data_video';
-amazon_video_test = 'data/amazon/test_data_video';
+amazon_video_test = 'data/amazon/test_data_video'; 
 
 % netflix subset
 % netflix_train_5K5K = 'data/netflix/training_data5K5K';
