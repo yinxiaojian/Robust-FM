@@ -26,6 +26,8 @@ function [ model, metric ] = capped_fm( training, validation, pars)
     epsilon1 = pars.epsilon1;
     epsilon2 = pars.epsilon2;
     epsilon3 = pars.epsilon3;
+    
+    truncated_k = pars.truncated_k;
 
     loss_fm_test = zeros(iter_num, epoch);
     loss_fm_train = zeros(iter_num, epoch);
@@ -46,6 +48,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
         re_idx = randperm(num_sample);
         X_train = train_X(re_idx,:);
         Y_train = train_Y(re_idx);
+        
+        % we need use truncated svd to calculate initial svd
+        first = 1;
 
         for t=1:epoch
 
@@ -62,6 +67,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                 g_1 = 0;
                 g_2 = 0;
                 g_3 = 0;
+                A = 0;
                 
                 skip = 1;
                 
@@ -79,11 +85,17 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 
                         if err > epsilon1 && err < epsilon1 + epsilon2
                             d = 1/2/(err - epsilon1);
-                            obj = obj + d*(err-epsilon1)^2;
+                            obj = obj + d*(err-epsilon1)^2; 
                             
                             g_1 = g_1 - y;
                             g_2 = g_2 - y*X;
                             g_3 = g_3 - y*(X'*X);
+                            
+                            if A == 0
+                                A = X';
+                            else
+                                A = [A X'];
+                            end
                     
                             skip = 0;
                         elseif err <= epsilon1
@@ -126,13 +138,23 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             W = W - W_;
                             
                             % truncated SVD
-                            [U,~,r] = truncated_svd(Z, epsilon3);
+                            if first
+                                [U, S,~] = truncated_svd(Z, truncated_k);
+                                first = 0;
+                            else
+                                [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+                            end
+
+                            
+                            
 %                             [P, r] = svdsecon(Z, epsilon3);
-                            rank = rank + r;
+%                             rank = rank + r;
                             
-                            obj = obj + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
+%                             obj = obj + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                             
-                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (U'*U) .* Z);
+                            P = U*U';
+                            tmp = size(P,1);
+                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (eye(tmp) - P) .* Z);
 %                             Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * P .* Z);
                             Z = Z - Z_;
 

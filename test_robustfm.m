@@ -8,7 +8,7 @@ validation.test_Y = test_Y;
 % pack paras
 pars.task = 'classification';
 pars.iter_num = 1;
-pars.epoch = 50;
+pars.epoch = 10;
 pars.minibatch = 10;
 
 % initial model
@@ -37,6 +37,7 @@ pars.alpha = 1e-2;
 pars.epsilon1 = 1e-1;
 pars.epsilon2 = 1;
 pars.epsilon3 = 20;
+pars.truncated_k = 5;
 
 pars.learning_rate = 1e3;
 pars.t0 = 1e5;
@@ -56,6 +57,8 @@ pars.beta = 1e-2;
 pars.epsilon1 = 1e-2;
 pars.epsilon2 = 3;
 pars.epsilon3 = 2;
+
+pars.truncated_k = 8;
 
 pars.learning_rate = 1e4;
 pars.t0 = 1e5;
