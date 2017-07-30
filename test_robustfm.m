@@ -58,9 +58,9 @@ pars.epsilon1 = 1e-2;
 pars.epsilon2 = 3;
 pars.epsilon3 = 2;
 
-pars.truncated_k = 8;
+pars.truncated_k = 5;
 
-pars.learning_rate = 1e4;
+pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
 % pars.w0 = model_no_capped.w0;

@@ -140,9 +140,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             % truncated SVD
                             if first
                                 [U, S,~] = truncated_svd(Z, truncated_k);
-                                first = 0;
-                            else
-                                [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+%                                 first = 0;
+%                             else
+%                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
                             end
 
                             
@@ -152,14 +152,24 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             
 %                             obj = obj + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                             
-                            P = U*U';
-                            tmp = size(P,1);
-                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (eye(tmp) - P) .* Z);
+%                             P = U*U';
+%                             tmp = size(P,1);
+                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (U * U') .* Z);
 %                             Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * P .* Z);
                             Z = Z - Z_;
 
                             % project on PSD cone!
-                            Z = psd_cone(Z);
+                            if first==1
+                                Z = psd_cone(Z);
+                                first = 0;
+                            else
+                                S(S<0) = 0;
+                                Z = U * S * U';
+                            end
+                            
+                            if first == 0
+                                [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+                            end
                             
                         end
                         
