@@ -150,7 +150,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 %                             [P, r] = svdsecon(Z, epsilon3);
 %                             rank = rank + r;
                             
-%                             obj = obj + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
+                            obj = obj + alpha/2*(W*W')+beta/2*trace(U'*(Z*Z')*U);
                             
 %                             P = U*U';
 %                             tmp = size(P,1);
