@@ -9,7 +9,6 @@ function [ U , S ] = incremental_svd( Z, A, U_, S_, eta)
     if ~isempty(P)
         R_A = P'*(eye(d)-tmp)*A;
     
-    
         [u, ~] = size(R_A);
         a = [S_ zeros(k,u);zeros(u, k+u)];
         b = [U_'*A;R_A];
