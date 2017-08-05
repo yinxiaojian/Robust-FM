@@ -1,6 +1,4 @@
 function [ U , S ] = incremental_svd( Z, A, U_, S_, eta)
-%INCREMENTAL_SVD 此处显示有关此函数的摘要
-%   此处显示详细说明
     A = sqrt(eta)*A;
     [d, k] = size(U_);  
     tmp = U_*U_';
@@ -27,8 +25,4 @@ function [ U , S ] = incremental_svd( Z, A, U_, S_, eta)
         
     end
     
-    
-    
-    
 end
-
