@@ -2,7 +2,7 @@ function [ U , S ] = incremental_svd( Z, A, U_, S_, eta)
     A = sqrt(eta)*A;
     [d, k] = size(U_);  
     tmp = U_*U_';
-    P = null((eye(d)-tmp)*A);
+    P = orth((eye(d)-tmp)*A);
     
     if ~isempty(P)
         R_A = P'*(eye(d)-tmp)*A;
@@ -24,5 +24,4 @@ function [ U , S ] = incremental_svd( Z, A, U_, S_, eta)
         S = S_K;
         
     end
-    
 end
