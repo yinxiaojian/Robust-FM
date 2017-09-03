@@ -79,12 +79,12 @@ pars.Z = zeros(p);
 
 %% plot
 % FM
-plot(metric_fm.loss_fm_test,'b--o','DisplayName','fm');
+plot(metric_fm.loss_fm_test(1,:),'b--o','DisplayName','fm');
 legend('-DynamicLegend');
 xlabel('epoch');
 ylabel('hinge loss');
 grid on;
 hold on;
 % robust FM
-plot(metric_capped.loss_fm_test,'r--o','DisplayName','robust-fm');
+plot(metric_capped.loss_fm_test(1,:),'r--o','DisplayName','robust-fm');
 legend('-DynamicLegend');
