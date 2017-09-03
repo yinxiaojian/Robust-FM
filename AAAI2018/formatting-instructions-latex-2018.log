@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.7.29)  3 SEP 2017 20:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.7.29)  4 SEP 2017 01:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -176,38 +176,58 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \tabu@vleads=\box32
 \tabu@cellskip=\skip49
 )
+(g:/texlive/2017/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip50
+\subfigcapskip=\skip51
+\subfigcaptopadj=\dimen127
+\subfigbottomskip=\skip52
+\subfigcapmargin=\dimen128
+\subfiglabelskip=\skip53
+\c@subfigure=\count107
+\c@lofdepth=\count108
+\c@subtable=\count109
+\c@lotdepth=\count110
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(g:/texlive/2017/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip54
+\subfig@bottom=\skip55
+)
 (./formatting-instructions-latex-2018.aux)
 \openout1 = `formatting-instructions-latex-2018.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 32.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 33.
 
 (g:/texlive/2017/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (g:/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count107
-\scratchdimen=\dimen127
+\scratchcounter=\count111
+\scratchdimen=\dimen129
 \scratchbox=\box33
-\nofMPsegments=\count108
-\nofMParguments=\count109
+\nofMPsegments=\count112
+\nofMParguments=\count113
 \everyMPshowfont=\toks23
-\MPscratchCnt=\count110
-\MPscratchDim=\dimen128
-\MPnumerator=\count111
-\makeMPintoPDFobject=\count112
+\MPscratchCnt=\count114
+\MPscratchDim=\dimen130
+\MPnumerator=\count115
+\makeMPintoPDFobject=\count116
 \everyMPtoPDFconversion=\toks24
 ) (g:/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
@@ -259,44 +279,69 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 39.
-LaTeX Font Info:    Try loading font information for U+msa on input line 39.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 40.
+LaTeX Font Info:    Try loading font information for U+msa on input line 40.
 
 (g:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 39.
+LaTeX Font Info:    Try loading font information for U+msb on input line 40.
 
 (g:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 39.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 39.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 40.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 40.
 
 (g:/texlive/2017/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 39.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 40.
 
-Overfull \hbox (22.75082pt too wide) in paragraph at lines 47--47
+Overfull \hbox (22.75082pt too wide) in paragraph at lines 48--48
 [] 
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
+<figs/phishing.pdf, id=1, 721.69624pt x 453.695pt>
+File: figs/phishing.pdf Graphic file (type pdf)
+ <use figs/phishing.pdf>
+Package pdftex.def Info: figs/phishing.pdf used on input line 118.
+(pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
+
+<figs/w8a.pdf, id=2, 721.69624pt x 453.695pt>
+File: figs/w8a.pdf Graphic file (type pdf)
+ <use figs/w8a.pdf>
+Package pdftex.def Info: figs/w8a.pdf used on input line 121.
+(pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
+
+<figs/ijcnn.pdf, id=3, 721.69624pt x 453.695pt>
+File: figs/ijcnn.pdf Graphic file (type pdf)
+ <use figs/ijcnn.pdf>
+Package pdftex.def Info: figs/ijcnn.pdf used on input line 124.
+(pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
+
+<figs/covtype.pdf, id=4, 721.69624pt x 453.695pt>
+File: figs/covtype.pdf Graphic file (type pdf)
+ <use figs/covtype.pdf>
+Package pdftex.def Info: figs/covtype.pdf used on input line 127.
+(pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
+
 [1{g:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
-] [2]
+] [2 <./figs/phishing.pdf> <./figs/w8a.pdf> <./figs/ijcnn.pdf> <./figs/covtype.
+pdf>]
 (./formatting-instructions-latex-2018.aux) ) 
 Here is how much of TeX's memory you used:
- 3165 strings out of 492995
- 43200 string characters out of 6136402
- 123991 words of memory out of 5000000
- 6653 multiletter control sequences out of 15000+600000
+ 3351 strings out of 492995
+ 45811 string characters out of 6136402
+ 127845 words of memory out of 5000000
+ 6828 multiletter control sequences out of 15000+600000
  21183 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,15n,25p,630b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -322,11 +367,11 @@ xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><g:/texlive/2017
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><g:/texlive/2017/texmf-dis
 t/fonts/type1/urw/times/utmb8a.pfb><g:/texlive/2017/texmf-dist/fonts/type1/urw/
 times/utmr8a.pfb>
-Output written on formatting-instructions-latex-2018.pdf (2 pages, 205090 bytes
+Output written on formatting-instructions-latex-2018.pdf (2 pages, 215935 bytes
 ).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 168 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -88,11 +88,11 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = magic04_train;
 % test_data = magic04_test;
 
-% training_data = phishing_train;
-% test_data = phishing_test;
+training_data = phishing_train;
+test_data = phishing_test;
 
-training_data = ijcnn_train;
-test_data = ijcnn_test;
+% training_data = ijcnn_train;
+% test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;

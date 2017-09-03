@@ -9,6 +9,7 @@
 \usepackage{graphicx}  %Required
 \usepackage{amsmath,amsfonts}
 \usepackage{tabu}
+\usepackage{subfigure}
 \newcommand\norm[1]{\left\lVert#1\right\rVert}
 \def \y {\mathbf{y}}
 \def \x {\mathbf{x}}
@@ -62,7 +63,6 @@ To incrementally calculate the SVD of $\Z - \eta \bigtriangledown_{\Z,I}$. Let t
 As matrix $\bigtriangledown_{\Z,I}$ is symmetric and low rank, we can represent it as $\A \A^\top$.
 \begin{align}
 \bigtriangledown_{\Z,I}&=\X\X^\top + \beta\P_M\P_M^\top\Z \\ \nonumber
-&= \X\X^\top + \beta
 \end{align}
 
 \section{Experiments}
@@ -75,6 +75,7 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 			\hline
 			Dataset & \#Training & \#Test & \#Feature   & \#class \\
 			\hline
+			phishing	& 7370		& 3685		& 68	& 2\\
 			w8a			& 49749		& 14951		& 300	& 2\\
 			IJCNN       & 49990     & 91701     & 22	& 2\\
 			Covtype		& 387342	& 193670	& 54	& 2\\
@@ -88,6 +89,10 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 \begin{table*}
 	\begin{tabu} to \textwidth {|X[c]| X[c]| X[c]| X[c]|}
 		\hline
+		phishing           & Train loss & Test loss & Acc(\%)  \\
+		\hline
+		\textbf{FM} 	  	&0.1397$\pm$0.0002 &0.1534$\pm$0.0006  &93.35 $\pm$ 0.10   \\ \hline
+		\textbf{RobFM}   	&\textbf{0.1145$\pm$0.0004} &\textbf{0.1357$\pm$0.0051}  &\textbf{94.59 $\pm$ 0.33}   \\ \hline
 		w8a               & Train loss & Test loss & Acc(\%) \\
 		\hline
 		\textbf{FM} 	 &0.0234$\pm$0.0010  &0.0245$\pm$0.0002  & 98.86 $\pm$ 0.07   \\ \hline
@@ -105,5 +110,23 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 	\end{tabu}
 	\caption{Comparison of different algorithms in terms of train loss, test loss, classification accuracy}
 \end{table*}
+
+\begin{figure*}[!htb]
+	\centering
+	\subfigure[phishing]{
+		\includegraphics[width=0.48\textwidth]{figs/phishing.pdf}
+	}
+	\subfigure[w8a]{
+		\includegraphics[width=0.48\textwidth]{figs/w8a.pdf}
+	}
+	\subfigure[IJCNN]{
+		\includegraphics[width=0.48\textwidth]{figs/ijcnn.pdf}
+	}
+	\subfigure[Covtype]{
+		\includegraphics[width=0.48\textwidth]{figs/covtype.pdf}
+	}
+	\caption{Epoch-wise demonstration of different algorithms with hinge loss on test data}
+	\label{allfig}
+\end{figure*}
 
 \end{document}

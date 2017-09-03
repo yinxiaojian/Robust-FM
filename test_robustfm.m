@@ -7,8 +7,8 @@ validation.test_Y = test_Y;
 
 % pack paras
 pars.task = 'classification';
-pars.iter_num = 1;
-pars.epoch = 10;
+pars.iter_num = 5;
+pars.epoch = 18;
 pars.minibatch = 10;
 
 % initial model
@@ -54,9 +54,9 @@ disp('Training with capped norm...')
 pars.alpha = 1e-3;
 pars.beta = 1e-3;
 
-pars.epsilon1 = 1e-2;
+pars.epsilon1 = 1e-1;
 pars.epsilon2 = 5;
-pars.epsilon3 = 1e-5;
+pars.epsilon3 = 1e-1;
 
 pars.w0 = 0;
 pars.W = zeros(1,p);
