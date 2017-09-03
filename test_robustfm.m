@@ -69,7 +69,7 @@ pars.t0 = 1e5;
 
 % pars.w0 = model_no_capped.w0;
 % pars.W = model_no_capped.W;
-% pars.Z = model_no_capped.Z;
+% pars.Z = model_no_capped.Z; 
 
 pars.w0 = 0;
 pars.W = zeros(1,p);
@@ -77,3 +77,14 @@ pars.Z = zeros(p);
 
 [model_capped, metric_capped] = capped_fm(training, validation, pars);
 
+%% plot
+% FM
+plot(metric_fm.loss_fm_test,'b--o','DisplayName','fm');
+legend('-DynamicLegend');
+xlabel('epoch');
+ylabel('hinge loss');
+grid on;
+hold on;
+% robust FM
+plot(metric_capped.loss_fm_test,'r--o','DisplayName','robust-fm');
+legend('-DynamicLegend');
