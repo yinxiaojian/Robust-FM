@@ -8,6 +8,7 @@
 \usepackage{url}  %Required
 \usepackage{graphicx}  %Required
 \usepackage{amsmath,amsfonts}
+\usepackage{tabu}
 \newcommand\norm[1]{\left\lVert#1\right\rVert}
 \def \y {\mathbf{y}}
 \def \x {\mathbf{x}}
@@ -39,10 +40,12 @@
 
 \section{Optimization Algorithm}
 The original objective for classsification task takes the form:
+\begin{small}
 \begin{align}
 	\min_{\w \in \mathbf{R}^d,\Z \in \mathbf{S}_{+}^{d \times d}} &\sum_{i=1}^{n}e_i(\max\{\max(y_i(\w^\top\x_i+\langle\Z, \x_i\x_i^\top\rangle),0)-\epsilon_1,0\})^2 \nonumber \\ 
 	&+ \frac{\alpha}{2}\norm{\w}^2 + \sum_s\min\{\lambda_s^2, \epsilon_3\},
 \end{align}
+\end{small}
 \begin{align}
 e_i=
 	\begin{cases}
@@ -62,22 +65,56 @@ As matrix $\bigtriangledown_{\Z,I}$ is symmetric and low rank, we can represent 
 &= \X\X^\top + \beta
 \end{align}
 
-\section{Experimental Results}
+\section{Experiments}
+In this section, we empirically investigate whether our proposed RobFM method can achieve better and robust performance compared to original factorization machine model with fixed rank on benchmark datasets.
+\subsection{Experimental Testbeds and Setup}
+We conduct our experiments on four public datasets. Table \ref{tab0} gives a brief summary of these datasets. All the datasets are normalized to have zero mean and unit variance in each dimension. To make fair comparison, all the algorithms are conducted over $5$ experimental runs of different random permutations. We apply hinge loss for training and evaluate the performance of our proposed methods for classification task by measuring accuracy and hinge loss. For parameter settings, we perform grid search to choose the best parameters for each algorithm on the training set.
 \begin{table}[htb]
 	\centering
 		\begin{tabular} {|l|c|c|c|c|}
 			\hline
 			Dataset & \#Training & \#Test & \#Feature   & \#class \\
 			\hline
-			Magic04 	& 12680 	& 6340 	 	& 10	& 2\\
 			w8a			& 49749		& 14951		& 300	& 2\\
 			IJCNN       & 49990     & 91701     & 22	& 2\\
 			Covtype		& 387342	& 193670	& 54	& 2\\
-			MNIST		& 60000		& 10000		& 784	& 10\\
-			epsilon		& 400000	& 100000	& 2000	& 2\\
+			a9a			& 32561		& 16281		& 123	& 2\\
+			Magic04		& 12680		& 6340		& 10	& 2\\
 			\hline
 		\end{tabular}
 	\caption{Summary of datasets used in our experiments.}
 	\label{tab0}
 \end{table}
+
+\subsection{Experimental Results}
+\begin{table*}
+	\begin{tabu} to \textwidth {|X[c]| X[c]| X[c]| X[c]|}
+		\hline
+		w8a               & Train loss & Test loss & Acc(\%) \\
+		\hline
+		\textbf{FM} 	 &0.6810$\pm$0.0010  &0.6770$\pm$0.0004  & 53.53 $\pm$ 0.58   \\ \hline
+		\textbf{RobFM}   &0.2614$\pm$0.0037  &0.2371$\pm$0.0038  & 89.80 $\pm$ 0.31  \\ \hline
+		\hline
+		IJCNN              & Train loss & Test loss & Acc(\%) \\
+		\hline
+		\textbf{FM} 	 &0.0930$\pm$0.0005  &0.0955$\pm$0.0004  & 96.66 $\pm$ 0.09 \\ \hline
+		\textbf{RobFM} 	 &\textbf{0.0712$\pm$0.0001}  &\textbf{0.0744$\pm$0.0013}  & \textbf{97.83 $\pm$ 0.15}  \\ \hline
+		\hline
+		Covtype           & Train loss & Test loss & Acc(\%)  \\
+		\hline
+		\textbf{FM} 	  	&0.0949$\pm$0.0001 &0.0928$\pm$0.0015  &96.70 $\pm$ 0.35   \\ \hline
+		\textbf{RobFM}   		&0.0815$\pm$0.0017  &0.0760$\pm$0.0026  &97.58 $\pm$ 0.10   \\ \hline
+		\hline
+		a9a               & Train loss & Test loss & Acc(\%)  \\
+		\hline
+		\textbf{FM} 			&0.4713$\pm$0.0002 &0.4557$\pm$0.0037  &78.42 $\pm$ 0.40   \\ \hline
+		\textbf{RobFM}   		&0.4509$\pm$0.0013  &0.4374$\pm$0.0014  &79.70 $\pm$ 0.12   \\ \hline
+		Magic04               & Train loss & Test loss & Acc(\%)  \\
+		\hline
+		\textbf{FM} 			&0.4713$\pm$0.0002 &0.4557$\pm$0.0037  &78.42 $\pm$ 0.40   \\ \hline
+		\textbf{RobFM}   		&0.4509$\pm$0.0013  &0.4374$\pm$0.0014  &79.70 $\pm$ 0.12   \\ \hline
+	\end{tabu}
+	\caption{Comparison of different algorithms in terms of train loss, test loss, classification accuracy}
+\end{table*}
+
 \end{document}

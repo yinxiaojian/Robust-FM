@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.7.29)  2 SEP 2017 12:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.7.29)  3 SEP 2017 15:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -135,39 +135,80 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
+(g:/texlive/2017/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2011/02/26 v2.8 - flexible LaTeX tabulars (FC)
+
+(g:/texlive/2017/texmf-dist/tex/latex/tools/array.sty
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen114
+\extrarowheight=\dimen115
+\NC@list=\toks20
+\extratabsurround=\skip47
+\backup@length=\skip48
+)
+(g:/texlive/2017/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box28
+\sift@deathcycles=\count100
+\@vwid@loff=\dimen116
+\@vwid@roff=\dimen117
+)
+\c@taburow=\count101
+\tabu@nbcols=\count102
+\tabu@cnt=\count103
+\tabu@Xcol=\count104
+\tabu@alloc=\count105
+\tabu@nested=\count106
+\tabu@target=\dimen118
+\tabu@spreadtarget=\dimen119
+\tabu@naturalX=\dimen120
+\tabucolX=\dimen121
+\tabu@Xsum=\dimen122
+\extrarowdepth=\dimen123
+\abovetabulinesep=\dimen124
+\belowtabulinesep=\dimen125
+\tabustrutrule=\dimen126
+\tabu@thebody=\toks21
+\tabu@footnotes=\toks22
+\tabu@box=\box29
+\tabu@arstrutbox=\box30
+\tabu@hleads=\box31
+\tabu@vleads=\box32
+\tabu@cellskip=\skip49
+)
 (./formatting-instructions-latex-2018.aux)
 \openout1 = `formatting-instructions-latex-2018.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 32.
 
 (g:/texlive/2017/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (g:/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count100
-\scratchdimen=\dimen114
-\scratchbox=\box28
-\nofMPsegments=\count101
-\nofMParguments=\count102
-\everyMPshowfont=\toks20
-\MPscratchCnt=\count103
-\MPscratchDim=\dimen115
-\MPnumerator=\count104
-\makeMPintoPDFobject=\count105
-\everyMPtoPDFconversion=\toks21
+\scratchcounter=\count107
+\scratchdimen=\dimen127
+\scratchbox=\box33
+\nofMPsegments=\count108
+\nofMParguments=\count109
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count110
+\MPscratchDim=\dimen128
+\MPnumerator=\count111
+\makeMPintoPDFobject=\count112
+\everyMPtoPDFconversion=\toks24
 ) (g:/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -218,66 +259,74 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 38.
-LaTeX Font Info:    Try loading font information for U+msa on input line 38.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 39.
+LaTeX Font Info:    Try loading font information for U+msa on input line 39.
 
 (g:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 38.
+LaTeX Font Info:    Try loading font information for U+msb on input line 39.
 
 (g:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 38.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 38.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 39.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 39.
 
 (g:/texlive/2017/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 38.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 39.
 
-Overfull \hbox (42.18427pt too wide) in paragraph at lines 45--45
+Overfull \hbox (22.75082pt too wide) in paragraph at lines 47--47
 [] 
  []
 
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
 [1{g:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
-
-]
+] [2]
 (./formatting-instructions-latex-2018.aux) ) 
 Here is how much of TeX's memory you used:
- 2345 strings out of 492995
- 31840 string characters out of 6136402
- 104235 words of memory out of 5000000
- 5854 multiletter control sequences out of 15000+600000
- 13957 words of font info for 36 fonts, out of 8000000 for 9000
+ 3177 strings out of 492995
+ 43320 string characters out of 6136402
+ 127991 words of memory out of 5000000
+ 6665 multiletter control sequences out of 15000+600000
+ 21183 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,14n,25p,278b,245s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,15n,25p,630b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
 {g:/texlive/2017/texmf-dist/fonts/e
 nc/dvips/base/8r.enc}<g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmbx10.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pf
-b><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><g:/tex
-live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><g:/texlive/2017
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><g:/texlive/2017/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi7.pfb><g:/texlive/2017/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr5.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr7.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
-b><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><g:/texl
-ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><g:/texlive/2017/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><g:/texlive/2017/texmf-dist/
-fonts/type1/urw/times/utmb8a.pfb><g:/texlive/2017/texmf-dist/fonts/type1/urw/ti
-mes/utmr8a.pfb>
-Output written on formatting-instructions-latex-2018.pdf (1 page, 137865 bytes)
-.
+/cmbx10.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pf
+b><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><g:/texl
+ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><g:/texlive/2017/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><g:/texlive/2017/texmf-dist
+/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><g:/texlive/2017/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi10.pfb><g:/texlive/2017/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmmi5.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi6.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi7.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><g
+:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><g:/texlive/
+2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><g:/texlive/2017/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><g:/texlive/2017/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr7.pfb><g:/texlive/2017/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr9.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.
+pfb><g:/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><g:/te
+xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><g:/texlive/2017
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><g:/texlive/2017/texmf-dis
+t/fonts/type1/urw/times/utmb8a.pfb><g:/texlive/2017/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb>
+Output written on formatting-instructions-latex-2018.pdf (2 pages, 205455 bytes
+).
 PDF statistics:
- 69 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 104 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
