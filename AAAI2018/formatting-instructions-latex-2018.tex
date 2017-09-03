@@ -78,8 +78,6 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 			w8a			& 49749		& 14951		& 300	& 2\\
 			IJCNN       & 49990     & 91701     & 22	& 2\\
 			Covtype		& 387342	& 193670	& 54	& 2\\
-			a9a			& 32561		& 16281		& 123	& 2\\
-			Magic04		& 12680		& 6340		& 10	& 2\\
 			\hline
 		\end{tabular}
 	\caption{Summary of datasets used in our experiments.}
@@ -92,8 +90,8 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		w8a               & Train loss & Test loss & Acc(\%) \\
 		\hline
-		\textbf{FM} 	 &0.6810$\pm$0.0010  &0.6770$\pm$0.0004  & 53.53 $\pm$ 0.58   \\ \hline
-		\textbf{RobFM}   &0.2614$\pm$0.0037  &0.2371$\pm$0.0038  & 89.80 $\pm$ 0.31  \\ \hline
+		\textbf{FM} 	 &0.0234$\pm$0.0010  &0.0245$\pm$0.0002  & 98.86 $\pm$ 0.07   \\ \hline
+		\textbf{RobFM}   &\textbf{0.0178$\pm$0.0007}  &\textbf{0.0190$\pm$0.0003}  &\textbf{99.10 $\pm$ 0.06}  \\ \hline
 		\hline
 		IJCNN              & Train loss & Test loss & Acc(\%) \\
 		\hline
@@ -102,17 +100,8 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		Covtype           & Train loss & Test loss & Acc(\%)  \\
 		\hline
-		\textbf{FM} 	  	&0.0949$\pm$0.0001 &0.0928$\pm$0.0015  &96.70 $\pm$ 0.35   \\ \hline
-		\textbf{RobFM}   		&0.0815$\pm$0.0017  &0.0760$\pm$0.0026  &97.58 $\pm$ 0.10   \\ \hline
-		\hline
-		a9a               & Train loss & Test loss & Acc(\%)  \\
-		\hline
-		\textbf{FM} 			&0.4713$\pm$0.0002 &0.4557$\pm$0.0037  &78.42 $\pm$ 0.40   \\ \hline
-		\textbf{RobFM}   		&0.4509$\pm$0.0013  &0.4374$\pm$0.0014  &79.70 $\pm$ 0.12   \\ \hline
-		Magic04               & Train loss & Test loss & Acc(\%)  \\
-		\hline
-		\textbf{FM} 			&0.4713$\pm$0.0002 &0.4557$\pm$0.0037  &78.42 $\pm$ 0.40   \\ \hline
-		\textbf{RobFM}   		&0.4509$\pm$0.0013  &0.4374$\pm$0.0014  &79.70 $\pm$ 0.12   \\ \hline
+		\textbf{FM} 	  	&0.5111$\pm$0.0001 &0.5088$\pm$0.0030  &77.31 $\pm$ 0.10   \\ \hline
+		\textbf{RobFM}   	&\textbf{0.4894$\pm$0.0001} &\textbf{0.4844$\pm$0.0066}  &\textbf{79.65 $\pm$ 0.25}   \\ \hline
 	\end{tabu}
 	\caption{Comparison of different algorithms in terms of train loss, test loss, classification accuracy}
 \end{table*}

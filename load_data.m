@@ -49,6 +49,9 @@ ijcnn_test = 'data/ijcnn/test_data';
 w8a_train = 'data/w8a/train_data';
 w8a_test = 'data/w8a/test_data';
 
+a9a_train = 'data/a9a/train_data';
+a9a_test = 'data/a9a/test_data';
+
 %% multiclassification task
 letter_train = 'data/letter/train_data';
 letter_test = 'data/letter/test_data';
@@ -88,8 +91,8 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = phishing_train;
 % test_data = phishing_test;
 
-% training_data = ijcnn_train;
-% test_data = ijcnn_test;
+training_data = ijcnn_train;
+test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;
@@ -109,8 +112,11 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = ONP_train;
 % test_data = ONP_test;
 
-training_data = w8a_train;
-test_data = w8a_test;
+% training_data = w8a_train;
+% test_data = w8a_test;
+
+% training_data = a9a_train;
+% test_data = a9a_test;
 
 load(training_data);
 load(test_data); 
