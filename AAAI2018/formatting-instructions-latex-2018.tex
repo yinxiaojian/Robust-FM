@@ -1,4 +1,4 @@
-  \def\year{2018}\relax
+\def\year{2018}\relax
 %File: formatting-instruction.tex
 \documentclass[letterpaper]{article} %DO NOT CHANGE THIS
 \usepackage{aaai18}  %Required
@@ -7,6 +7,8 @@
 \usepackage{courier}  %Required
 \usepackage{url}  %Required
 \usepackage{graphicx}  %Required
+\usepackage{amsmath,amsfonts}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
 \def \y {\mathbf{y}}
 \def \x {\mathbf{x}}
 \def \Y {\mathbf{Y}}
@@ -15,6 +17,7 @@
 \def \v {\mathbf{v}}
 \def \V {\mathbf{V}}
 \def \Z {\mathbf{Z}}
+\def \A {\mathbf{A}}
 \def \z {\mathbf{z}}
 \def \P {\mathbf{P}}
 \frenchspacing  %Required
@@ -33,14 +36,48 @@
 \author{Anonymous
 }
 \maketitle
-\section{Optimization Algorithm}
-The original objective takes the form:
-\begin{equation}
-	\min_{\w \in \mathbf{R}^d,\Z \in \mathbf{S}_{+}^{d \times d}} \sum_{i=1}^{n}e_i(max(y_i(\w^\top\x_i+<\Z, \x_i\x_i^\top>)))
-\end{equation}
 
-\begin{equation}
-	\X\X^\top + \P_M\Sigma_k\P_M^\top
-\end{equation}
+\section{Optimization Algorithm}
+The original objective for classsification task takes the form:
+\begin{align}
+	\min_{\w \in \mathbf{R}^d,\Z \in \mathbf{S}_{+}^{d \times d}} &\sum_{i=1}^{n}e_i(\max\{\max(y_i(\w^\top\x_i+\langle\Z, \x_i\x_i^\top\rangle),0)-\epsilon_1,0\})^2 \nonumber \\ 
+	&+ \frac{\alpha}{2}\norm{\w}^2 + \sum_s\min\{\lambda_s^2, \epsilon_3\},
+\end{align}
+\begin{align}
+e_i=
+	\begin{cases}
+	\frac{1}{2error},& 0 < error \leq \epsilon_2;\\
+	0, & otherwise
+	\end{cases}\nonumber
+\end{align}
+where $error=\max(y_i(\w^\top\x_i+\langle\Z, \x_i\x_i^\top\rangle),0)-\epsilon_1$\\
+The subgradient with respect to $\Z$ is
+\begin{align}
+\bigtriangledown_{\Z, I} = \sum_{i=1}^{b}{\x_i\x_i^\top} + \beta\P_M\P_M^\top\Z 
+\end{align}
+To incrementally calculate the SVD of $\Z - \eta \bigtriangledown_{\Z,I}$. Let the symmetric and low rank matrix $\Z$ has rank $k$ and its economy SVD is $\Z=\P_k\Sigma_k\P_k^\top$.
+As matrix $\bigtriangledown_{\Z,I}$ is symmetric and low rank, we can represent it as $\A \A^\top$.
+\begin{align}
+\bigtriangledown_{\Z,I}&=\X\X^\top + \beta\P_M\P_M^\top\Z \\ \nonumber
+&= \X\X^\top + \beta
+\end{align}
+
 \section{Experimental Results}
+\begin{table}[htb]
+	\centering
+		\begin{tabular} {|l|c|c|c|c|}
+			\hline
+			Dataset & \#Training & \#Test & \#Feature   & \#class \\
+			\hline
+			Magic04 	& 12680 	& 6340 	 	& 10	& 2\\
+			w8a			& 49749		& 14951		& 300	& 2\\
+			IJCNN       & 49990     & 91701     & 22	& 2\\
+			Covtype		& 387342	& 193670	& 54	& 2\\
+			MNIST		& 60000		& 10000		& 784	& 10\\
+			epsilon		& 400000	& 100000	& 2000	& 2\\
+			\hline
+		\end{tabular}
+	\caption{Summary of datasets used in our experiments.}
+	\label{tab0}
+\end{table}
 \end{document}

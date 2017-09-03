@@ -17,7 +17,7 @@ pars.minibatch = 10;
 %% fm
 rng('default');
 pars.reg = 1e-4;
-pars.factors_num = 10;
+pars.factors_num =10;
 pars.w0 = 0;
 pars.W = zeros(1,p);
 pars.V = 0.1*randn(p,pars.factors_num);
@@ -57,6 +57,10 @@ pars.beta = 1e-3;
 pars.epsilon1 = 1e-2;
 pars.epsilon2 = 3;
 pars.epsilon3 = 2;
+
+pars.w0 = 0;
+pars.W = zeros(1,p);
+pars.Z = zeros(p);
 
 pars.truncated_k = 5;
 

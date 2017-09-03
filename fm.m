@@ -54,15 +54,17 @@ function [ model, metric ] = fm( training, validation, pars )
                 idx = (t-1)*num_sample + j;
                 % SGD update
                 if strcmp(task, 'classification')
-                    err = sigmf(y*y_predict,[1,0]);
-                    loss = loss - log(err);
-
-                    w0_ = learning_rate / (idx + t0) * ((err-1)*y);
-                    w0 = w0 - w0_;
-                    W_ = learning_rate / (idx + t0) * ((err-1)*y*X(nz_idx) + 2 * reg * W(nz_idx));
-                    W(nz_idx) = W(nz_idx) - W_;
-                    V_ = learning_rate / (idx + t0) * ((err-1)*y*(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * reg * V(nz_idx,:));
-                    V(nz_idx,:) = V(nz_idx,:) - V_;
+                    err = max(0, 1-y*y_predict);
+                    loss = loss + err;
+                    
+                    if err > 0
+                        w0_ = learning_rate / (idx + t0) * (-y);
+                        w0 = w0 - w0_;
+                        W_ = learning_rate / (idx + t0) * (-y*X(nz_idx) + 2 * reg * W(nz_idx));
+                        W(nz_idx) = W(nz_idx) - W_;
+                        V_ = learning_rate / (idx + t0) * (-y*(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * reg * V(nz_idx,:));
+                        V(nz_idx,:) = V(nz_idx,:) - V_;
+                    end
                 end
 
                 if strcmp(task, 'regression')
@@ -97,8 +99,8 @@ function [ model, metric ] = fm( training, validation, pars )
                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
 
                 if strcmp(task, 'classification')
-                    err = sigmf(y*y_predict,[1,0]);
-                    loss = loss - log(err);
+                    err = max(0, 1-y_predict*y);
+                    loss = loss + err;
 
                     if (y_predict>=0 && y==1) || (y_predict<0&&y==-1)
                         correct_num = correct_num + 1;
