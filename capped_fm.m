@@ -21,6 +21,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 
     epoch = pars.epoch;
     minibatch = pars.minibatch;
+    truncated_k = pars.truncated_k;
 
     % capped trace norm threshold
     epsilon1 = pars.epsilon1;
@@ -91,8 +92,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                             
 
                             % truncated SVD
-                            [U,~,r] = truncated_svd(Z, epsilon3);
-                            rank = rank + r;
+%                             [U,~,r] = truncated_svd(Z, epsilon3);
+                            [U,~,~] = truncated_svd(Z, epsilon3);
+                            rank = rank + truncated_k;
                             
                             obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                             

@@ -77,8 +77,10 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 			\hline
 			phishing	& 7370		& 3685		& 68	& 2\\
 			w8a			& 49749		& 14951		& 300	& 2\\
+			real-sim	& 48206		& 24103		& 20958 & 2\\
 			IJCNN       & 49990     & 91701     & 22	& 2\\
 			Covtype		& 387342	& 193670	& 54	& 2\\
+			MNIST		& 60000		& 10000		& 784	 & 2\\
 			\hline
 		\end{tabular}
 	\caption{Summary of datasets used in our experiments.}
@@ -91,22 +93,45 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		phishing           & Train loss & Test loss & Acc(\%)  \\
 		\hline
+		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{SVM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
 		\textbf{FM} 	  	&0.1397$\pm$0.0002 &0.1534$\pm$0.0006  &93.35 $\pm$ 0.10   \\ \hline
 		\textbf{RobFM}   	&\textbf{0.1145$\pm$0.0004} &\textbf{0.1357$\pm$0.0051}  &\textbf{94.59 $\pm$ 0.33}   \\ \hline
 		w8a               & Train loss & Test loss & Acc(\%) \\
 		\hline
+		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{SVM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
 		\textbf{FM} 	 &0.0234$\pm$0.0010  &0.0245$\pm$0.0002  & 98.86 $\pm$ 0.07   \\ \hline
 		\textbf{RobFM}   &\textbf{0.0178$\pm$0.0007}  &\textbf{0.0190$\pm$0.0003}  &\textbf{99.10 $\pm$ 0.06}  \\ \hline
 		\hline
+		real-sim               & Train loss & Test loss & Acc(\%) \\
+		\hline
+		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{SVM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{FM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{RobFM}   &\textbf{$\pm$}  &\textbf{$\pm$}  &\textbf{$\pm$}  \\ \hline
+		\hline
 		IJCNN              & Train loss & Test loss & Acc(\%) \\
 		\hline
+		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{SVM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
 		\textbf{FM} 	 &0.0930$\pm$0.0005  &0.0955$\pm$0.0004  & 96.66 $\pm$ 0.09 \\ \hline
 		\textbf{RobFM} 	 &\textbf{0.0712$\pm$0.0001}  &\textbf{0.0744$\pm$0.0013}  & \textbf{97.83 $\pm$ 0.15}  \\ \hline
 		\hline
 		Covtype           & Train loss & Test loss & Acc(\%)  \\
 		\hline
+		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{SVM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
 		\textbf{FM} 	  	&0.5111$\pm$0.0001 &0.5088$\pm$0.0030  &77.31 $\pm$ 0.10   \\ \hline
 		\textbf{RobFM}   	&\textbf{0.4894$\pm$0.0001} &\textbf{0.4844$\pm$0.0066}  &\textbf{79.65 $\pm$ 0.25}   \\ \hline
+		\hline
+		MNIST           & Train loss & Test loss & Acc(\%)  \\
+		\hline
+		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{SVM} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{FM} 	  	&$\pm$ &$\pm$  & $\pm$   \\ \hline
+		\textbf{RobFM}   	&\textbf{$\pm$} &\textbf{$\pm$}  &\textbf{$\pm$}   \\ \hline
+		
 	\end{tabu}
 	\caption{Comparison of different algorithms in terms of train loss, test loss, classification accuracy}
 \end{table*}

@@ -7,12 +7,25 @@ validation.test_Y = test_Y;
 
 % pack paras
 pars.task = 'classification';
-pars.iter_num = 5;
-pars.epoch = 18;
+pars.iter_num = 1;
+pars.epoch = 10;
 pars.minibatch = 10;
 
 % initial model
 [~, p] = size(train_X);
+
+%% svm
+rng('default');
+pars.reg = 1e-3;
+pars.factors_num =10;
+pars.w0 = 0;
+pars.W = zeros(1,p);
+
+pars.learning_rate = 1e3;
+pars.t0 = 1e5;
+
+disp('Training FM...')
+[model_svm, metric_svm] = svm(training, validation, pars);
 
 %% fm
 rng('default');
@@ -26,7 +39,7 @@ pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
 disp('Training FM...')
-[model_mf, metric_fm] = fm(training, validation, pars);
+[model_fm, metric_fm] = fm(training, validation, pars);
 
 %% no capped norm
 rng('default');
@@ -78,6 +91,14 @@ pars.Z = zeros(p);
 [model_capped, metric_capped] = capped_fm(training, validation, pars);
 
 %% plot
+% SVM
+plot(metric_svm.loss_fm_test(1,:),'g--o','DisplayName','svm');
+legend('-DynamicLegend');
+xlabel('epoch');
+ylabel('hinge loss');
+grid on;
+hold on;
+
 % FM
 plot(metric_fm.loss_fm_test(1,:),'b--o','DisplayName','fm');
 legend('-DynamicLegend');
@@ -86,5 +107,6 @@ ylabel('hinge loss');
 grid on;
 hold on;
 % robust FM
+
 plot(metric_capped.loss_fm_test(1,:),'r--o','DisplayName','robust-fm');
 legend('-DynamicLegend');
