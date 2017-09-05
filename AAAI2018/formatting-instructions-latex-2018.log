@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.7.29)  5 SEP 2017 00:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.7.29)  5 SEP 2017 23:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -309,25 +309,25 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 <figs/phishing.pdf, id=1, 721.69624pt x 453.695pt>
 File: figs/phishing.pdf Graphic file (type pdf)
  <use figs/phishing.pdf>
-Package pdftex.def Info: figs/phishing.pdf used on input line 143.
+Package pdftex.def Info: figs/phishing.pdf used on input line 149.
 (pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
 
 <figs/w8a.pdf, id=2, 721.69624pt x 453.695pt>
 File: figs/w8a.pdf Graphic file (type pdf)
  <use figs/w8a.pdf>
-Package pdftex.def Info: figs/w8a.pdf used on input line 146.
+Package pdftex.def Info: figs/w8a.pdf used on input line 152.
 (pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
 
 <figs/ijcnn.pdf, id=3, 721.69624pt x 453.695pt>
 File: figs/ijcnn.pdf Graphic file (type pdf)
  <use figs/ijcnn.pdf>
-Package pdftex.def Info: figs/ijcnn.pdf used on input line 149.
+Package pdftex.def Info: figs/ijcnn.pdf used on input line 155.
 (pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
 
 <figs/covtype.pdf, id=4, 721.69624pt x 453.695pt>
 File: figs/covtype.pdf Graphic file (type pdf)
  <use figs/covtype.pdf>
-Package pdftex.def Info: figs/covtype.pdf used on input line 152.
+Package pdftex.def Info: figs/covtype.pdf used on input line 158.
 (pdftex.def)             Requested size: 242.82503pt x 152.64816pt.
 
 [1{g:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
@@ -338,10 +338,10 @@ Package pdftex.def Info: figs/covtype.pdf used on input line 152.
 ype.pdf>]
 (./formatting-instructions-latex-2018.aux) ) 
 Here is how much of TeX's memory you used:
- 3387 strings out of 492995
- 46171 string characters out of 6136402
- 136845 words of memory out of 5000000
- 6864 multiletter control sequences out of 15000+600000
+ 3399 strings out of 492995
+ 46291 string characters out of 6136402
+ 139845 words of memory out of 5000000
+ 6876 multiletter control sequences out of 15000+600000
  21183 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,15n,25p,630b,437s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -367,7 +367,7 @@ xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><g:/texlive/2017
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><g:/texlive/2017/texmf-dis
 t/fonts/type1/urw/times/utmb8a.pfb><g:/texlive/2017/texmf-dist/fonts/type1/urw/
 times/utmr8a.pfb>
-Output written on formatting-instructions-latex-2018.pdf (3 pages, 217467 bytes
+Output written on formatting-instructions-latex-2018.pdf (3 pages, 218256 bytes
 ).
 PDF statistics:
  171 PDF objects out of 1000 (max. 8388607)

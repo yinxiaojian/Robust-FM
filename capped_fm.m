@@ -118,59 +118,6 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     end
                 end
 
-                if strcmp(task, 'regression')
-                    err = y_predict - y;
-                    loss = loss + err^2;
-                    
-
-                    % capped norm
-                    if beta ~= 0
-                        
-                        if abs(err) < epsilon1
-                            d = 1/abs(err);
-                        else
-                            d = 0;
-                            outlier = outlier + 1;
-                        end
-%                         d = 1;
-
-                        if d ~=0
-                            w0_ = learning_rate / (idx + t0) * (d * 2 * err);
-                            w0 = w0 - w0_;
-                            W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
-                            W = W - W_;
-                            
-
-                            % truncated SVD
-                            [U,~,r] = truncated_svd(Z, epsilon2);
-                            rank = rank + r;
-                            
-                            obj = obj + d*err^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
-                            
-                            Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * (U'*U) .* Z);
-                            Z = Z - Z_;
-
-                            % project on PSD cone!
-                            [UU, D, VV] = svd(Z);
-                            d = real(diag(D));
-                            d(d < 0) = 0;
-                            Z =(UU * diag(d) * VV');
-                            
-                        end
-                        
-                    % no capped norm    
-                    else
-                        w0_ = learning_rate / (idx + t0) * (2 * err);
-                        w0 = w0 - w0_;
-                        W_ = learning_rate / (idx + t0) * (2 * err *X + alpha * W);
-                        W = W - W_;
-
-                        Z_ = learning_rate / (idx + t0) * (2 * err .*(X'*X));
-                        Z = Z - Z_;
-                    end
-                    
-                end
-
             end
 
             loss_fm_train(i,t) = loss / num_sample;
@@ -201,14 +148,6 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                         correct_num = correct_num + 1;
                     end
                 end
-
-                if strcmp(task, 'regression')
-                    err = y_predict - y;
-%                     loss = loss + err^2;
-                    % absolute loss
-                    loss = loss + abs(err);
-                end
-
             end
 
             loss_fm_test(i,t) = loss / num_sample_test;

@@ -6,8 +6,9 @@ validation.test_X = test_X;
 validation.test_Y = test_Y;
 
 % pack paras
-pars.task = 'classification';
-pars.iter_num = 1;
+% pars.task = 'binary-classification';
+pars.task = 'multi-classification';
+pars.iter_num = 5;
 pars.epoch = 10;
 pars.minibatch = 10;
 
@@ -24,18 +25,18 @@ pars.W = zeros(1,p);
 pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
-disp('Training FM...')
+disp('Training SVM...')
 [model_svm, metric_svm] = svm(training, validation, pars);
 
 %% fm
 rng('default');
 pars.reg = 1e-3;
 pars.factors_num =10;
-pars.w0 = 0;
-pars.W = zeros(1,p);
-pars.V = 0.1*randn(p,pars.factors_num);
+pars.w0 = zeros(10, 1);
+pars.W = zeros(10,p);
+pars.V = 0.1*randn(10,p,pars.factors_num);
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e2;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -98,7 +99,7 @@ xlabel('epoch');
 ylabel('hinge loss');
 grid on;
 hold on;
-
+%%
 % FM
 plot(metric_fm.loss_fm_test(1,:),'b--o','DisplayName','fm');
 legend('-DynamicLegend');
@@ -106,6 +107,8 @@ xlabel('epoch');
 ylabel('hinge loss');
 grid on;
 hold on;
+
+%%
 % robust FM
 
 plot(metric_capped.loss_fm_test(1,:),'r--o','DisplayName','robust-fm');

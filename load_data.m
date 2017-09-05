@@ -29,6 +29,10 @@ rcv1_test = 'data/rcv1/test_data';
 covtype_train = 'data/covtype/train_data';
 covtype_test = 'data/covtype/test_data';
 
+% real-sim
+realsim_train = 'data/real_sim/train_data';
+realsim_test = 'data/real_sim/test_data';
+
 %% classification task
 % adult
 adult_train = 'data/adult/training_data';
@@ -62,6 +66,8 @@ mnist_test = 'data/mnist/test_data';
 usps_train = 'data/usps/train_data';
 usps_test = 'data/usps/test_data';
 
+protein_train = 'data/protein/train_data';
+protein_test = 'data/protein/test_data';
 
 %% regression task
 ONP_train = 'data/OnlineNewsPopularity/train_data';
@@ -91,8 +97,8 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = phishing_train;
 % test_data = phishing_test;
 
-training_data = ijcnn_train;
-test_data = ijcnn_test;
+% training_data = ijcnn_train;
+% test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;
@@ -100,14 +106,20 @@ test_data = ijcnn_test;
 % training_data = letter_train;
 % test_data = letter_test;
 
-% training_data = mnist_train;
-% test_data = mnist_test;
+training_data = mnist_train;
+test_data = mnist_test;
 % 
 % training_data = usps_train;
 % test_data = usps_test;
 
+% training_data = protein_train;
+% test_data = protein_test;
+
 % training_data = covtype_train;
 % test_data = covtype_test;
+
+% training_data = realsim_train;
+% test_data = realsim_test;
 
 % training_data = ONP_train;
 % test_data = ONP_test;
