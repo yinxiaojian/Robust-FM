@@ -76,7 +76,7 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                     y = Y_train(jj,:);
                     y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
                     
-                    if strcmp(task, 'classification')
+                    if strcmp(task, 'binary-classification')
 
                         % hinge loss
                         err = max(0, 1-y*y_predict);
@@ -85,7 +85,7 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
 
                         if err > epsilon1 && err < epsilon1 + epsilon2
                             d = 1/2/(err - epsilon1);
-                            obj = obj + d*(err-epsilon1)^2; 
+%                             obj = obj + d*(err-epsilon1)^2; 
                             
                             g_1 = g_1 - y;
                             g_2 = g_2 - y*X;
@@ -107,27 +107,13 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                         end
                         
                     end
-
-
-                    if strcmp(task, 'regression')
-                        err = y_predict - y;
-                        loss = loss + err^2;
-
-                        if abs(err) < epsilon1
-                            d = 1/abs(err);
-                        else
-                            d = 0;
-                            outlier = outlier + 1;
-                        end
-
-                    end
                     
                 end
                 
                 % batch sgd
                 idx = (t-1)*batch_round + j;
                 % SGD update
-                if strcmp(task, 'classification')
+                if strcmp(task, 'binary-classification')
                     % capped norm
                     if beta ~= 0
                         
@@ -150,7 +136,7 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
 %                             [P, r] = svdsecon(Z, epsilon3);
 %                             rank = rank + r;
                             
-                            obj = obj + alpha/2*(W*W')+beta/2*trace(U'*(Z*Z')*U);
+%                             obj = obj + alpha/2*(W*W')+beta/2*trace(U'*(Z*Z')*U);
                             
 %                             P = U*U';
 %                             tmp = size(P,1);
@@ -169,64 +155,14 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                             
                             if first == 0
                                 A = [A sqrt(S)*U];
-                                [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+%                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+                                [U, S] = Incsvd(U, S, sqrt(learning_rate / (idx + t0))*A);
                             end
                             
                         end
-                        
-                    % no capped norm    
-                    else
-                        w0_ = learning_rate / (idx + t0) * (2 * err);
-                        w0 = w0 - w0_;
-                        W_ = learning_rate / (idx + t0) * (2 * err *X + alpha * W);
-                        W = W - W_;
-
-                        Z_ = learning_rate / (idx + t0) * (2 * err .*(X'*X));
-                        Z = Z - Z_;
                     end
+
                 end
-
-                if strcmp(task, 'regression')
-                    % capped norm
-                    if beta ~= 0
-                        
-                        if d ~=0
-                            w0_ = learning_rate / (idx + t0) * (d * 2 * err);
-                            w0 = w0 - w0_;
-                            W_ = learning_rate / (idx + t0) * (d * 2 * err *X + alpha * W);
-                            W = W - W_;
-                            
-
-                            % truncated SVD
-                            [U,~,r] = truncated_svd(Z, epsilon2);
-                            rank = rank + r;
-                            
-                            obj = obj + d*err^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
-                            
-                            Z_ = learning_rate / (idx + t0) * (d * 2 * err *(X'*X)+beta * (U'*U) .* Z);
-                            Z = Z - Z_;
-
-                            % project on PSD cone!
-                            [UU, D, VV] = svd(Z);
-                            d = real(diag(D));
-                            d(d < 0) = 0;
-                            Z =(UU * diag(d) * VV');
-                            
-                        end
-                        
-                    % no capped norm    
-                    else
-                        w0_ = learning_rate / (idx + t0) * (2 * err);
-                        w0 = w0 - w0_;
-                        W_ = learning_rate / (idx + t0) * (2 * err *X + alpha * W);
-                        W = W - W_;
-
-                        Z_ = learning_rate / (idx + t0) * (2 * err .*(X'*X));
-                        Z = Z - Z_;
-                    end
-                    
-                end
-
             end
 
             loss_fm_train(i,t) = loss / num_sample;
@@ -248,7 +184,7 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
 
                 y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
 
-                if strcmp(task, 'classification')
+                if strcmp(task, 'binary-classification')
 %                     err = sigmf(y*y_predict,[1,0]);
                     err = max(0, 1-y_predict*y);
                     loss = loss + err;
@@ -256,13 +192,6 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                     if (y_predict>=0 && y==1) || (y_predict<0&&y==-1)
                         correct_num = correct_num + 1;
                     end
-                end
-
-                if strcmp(task, 'regression')
-                    err = y_predict - y;
-%                     loss = loss + err^2;
-                    % absolute loss
-                    loss = loss + abs(err);
                 end
 
             end
@@ -274,10 +203,8 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                 fprintf('test loss:%.4f\t', loss_fm_test(i,t));
             end
             
-            if strcmp(task, 'classification')
-                accuracy_fm(i,t) = correct_num/num_sample_test;
-                fprintf('test accuracy:%.4f', accuracy_fm(i,t));
-            end
+            accuracy_fm(i,t) = correct_num/num_sample_test;
+            fprintf('test accuracy:%.4f', accuracy_fm(i,t));
 
             fprintf('\n');
 

@@ -21,6 +21,8 @@ function [ model, metric ] = svm( training, validation, pars )
 
     epoch = pars.epoch;
 
+    class_num = max(train_Y);
+
     loss_fm_test = zeros(iter_num, epoch);
     loss_fm_train = zeros(iter_num, epoch);
     accuracy_fm = zeros(iter_num, epoch);
@@ -43,18 +45,36 @@ function [ model, metric ] = svm( training, validation, pars )
             for j=1:num_sample
 
                 X = X_train(j,:);
-                y = Y_train(j,:);
+                if strcmp(task, 'binary-classification')
+                    y = Y_train(j,:);
+                end
+
+                if strcmp(task, 'multi-classification')
+                    y = -ones(1, class_num);
+                    y(Y_train(j,:)) = 1;
+                end
 
                 nz_idx = find(X);
-
+ 
 %                 tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:));
 %                 factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
 %                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
-                y_predict = W*X' + w0;
+                
 
                 idx = (t-1)*num_sample + j;
+                
+                if strcmp(task, 'binary-classification')
+                    y_predict = W(nz_idx)*X(nz_idx)' + w0;
+                end
+
+                if strcmp(task, 'multi-classification')
+                    y_predict = zeros(1, class_num);
+                    for u = 1:class_num
+                        y_predict(u) = w0(u) + W(u,nz_idx)*X(nz_idx)';
+                    end
+                end
                 % SGD update
-                if strcmp(task, 'classification')
+                if strcmp(task, 'binary-classification')
                     err = max(0, 1-y*y_predict);
                     loss = loss + err;
                     
@@ -63,6 +83,20 @@ function [ model, metric ] = svm( training, validation, pars )
                         w0 = w0 - w0_;
                         W_ = learning_rate / (idx + t0) * (-y*X(nz_idx) + 2 * reg * W(nz_idx));
                         W(nz_idx) = W(nz_idx) - W_;
+                    end
+                end
+
+                if strcmp(task, 'multi-classification')
+                    err = max(0, 1-y.*y_predict);
+                    loss = loss + sum(err);
+                    
+                    for u=1:class_num
+                        if err(u) > 0
+                            w0_ = learning_rate / (idx + t0) * (-y(u));
+                            w0(u) = w0(u) - w0_;
+                            W_ = learning_rate / (idx + t0) * (-y(u)*X(nz_idx) + 2 * reg * W(u,nz_idx));
+                            W(u,nz_idx) = W(u,nz_idx) - W_;
+                        end
                     end
                 end
 
@@ -78,14 +112,22 @@ function [ model, metric ] = svm( training, validation, pars )
             for k=1:num_sample_test
 
                 X = test_X(k,:);
-                y = test_Y(k,:);
+                if strcmp(task, 'binary-classification')
+                    y = test_Y(k,:);
+                end
 
+                if strcmp(task, 'multi-classification')
+                    y = -ones(1, class_num);
+                    y(test_Y(k,:)) = 1;
+                end
+
+                nz_idx = find(X);
 %                 tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:)) ;
 %                 factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
 %                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
-                y_predict = W*X' + w0;
 
-                if strcmp(task, 'classification')
+                if strcmp(task, 'binary-classification')
+                    y_predict = W*X' + w0;
                     err = max(0, 1-y_predict*y);
                     loss = loss + err;
 
@@ -94,14 +136,28 @@ function [ model, metric ] = svm( training, validation, pars )
                     end
                 end
 
+                if strcmp(task, 'multi-classification')
+                    y_predict = zeros(1, class_num);
+                    for u = 1:class_num
+                        y_predict(u) = w0(u) + W(u,nz_idx)*X(nz_idx)';
+                    end
+
+                    err = max(0, 1-y.*y_predict);
+                    loss = loss + sum(err);
+
+                    [~, label] = max(y_predict);
+                    
+                    % accuracy
+                    if label == test_Y(k,:)
+                        correct_num = correct_num + 1;
+                    end
+                end
             end
 
             loss_fm_test(i,t) = loss / num_sample_test;
             fprintf('test loss:%.4f\t', loss_fm_test(i,t));
-            if strcmp(task, 'classification')
-                accuracy_fm(i,t) = correct_num/num_sample_test;
-                fprintf('\ttest accuracy:%.4f', accuracy_fm(i,t));
-            end
+            accuracy_fm(i,t) = correct_num/num_sample_test;
+            fprintf('\ttest accuracy:%.4f', accuracy_fm(i,t));
 
             fprintf('\n');
 

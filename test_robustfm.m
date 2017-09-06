@@ -6,23 +6,23 @@ validation.test_X = test_X;
 validation.test_Y = test_Y;
 
 % pack paras
-% pars.task = 'binary-classification';
-pars.task = 'multi-classification';
-pars.iter_num = 5;
+pars.task = 'binary-classification';
+% pars.task = 'multi-classification';
+pars.iter_num = 1;
 pars.epoch = 10;
 pars.minibatch = 10;
 
 % initial model
 [~, p] = size(train_X);
+class_num = max(train_Y);
 
 %% svm
 rng('default');
 pars.reg = 1e-3;
-pars.factors_num =10;
-pars.w0 = 0;
-pars.W = zeros(1,p);
+pars.w0 = zeros(class_num, 1);
+pars.W = zeros(class_num,p);
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e2;
 pars.t0 = 1e5;
 
 disp('Training SVM...')
@@ -30,37 +30,18 @@ disp('Training SVM...')
 
 %% fm
 rng('default');
+
 pars.reg = 1e-3;
 pars.factors_num =10;
-pars.w0 = zeros(10, 1);
-pars.W = zeros(10,p);
-pars.V = 0.1*randn(10,p,pars.factors_num);
+pars.w0 = zeros(class_num, 1);
+pars.W = zeros(class_num,p);
+pars.V = 0.1*randn(class_num,p,pars.factors_num);
 
 pars.learning_rate = 1e2;
 pars.t0 = 1e5;
 
 disp('Training FM...')
 [model_fm, metric_fm] = fm(training, validation, pars);
-
-%% no capped norm
-rng('default');
-disp('Training without capped norm...')
-pars.beta = 0;
-pars.alpha = 1e-2;
-
-pars.epsilon1 = 1e-1;
-pars.epsilon2 = 1;
-pars.epsilon3 = 1;
-pars.truncated_k = 5;
-
-pars.learning_rate = 1e3;
-pars.t0 = 1e5;
-
-pars.w0 = 0;
-pars.W = zeros(1,p);
-pars.Z = zeros(p);
-
-[model_no_capped, metric_no_capped] = capped_fm(training, validation, pars);
 
 %% capped norm
 rng('default');
@@ -70,27 +51,48 @@ pars.beta = 1e-3;
 
 pars.epsilon1 = 1e-1;
 pars.epsilon2 = 5;
-pars.epsilon3 = 1e-1;
+pars.epsilon3 = 1;
 
-pars.w0 = 0;
-pars.W = zeros(1,p);
-pars.Z = zeros(p);
+pars.w0 = zeros(class_num, 1);
+pars.W = zeros(class_num,1,p);
+pars.Z = zeros(class_num,p, p);
 
 pars.truncated_k = 5;
 
-pars.learning_rate = 1e4;
+pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
 % pars.w0 = model_no_capped.w0;
 % pars.W = model_no_capped.W;
 % pars.Z = model_no_capped.Z; 
 
-pars.w0 = 0;
-pars.W = zeros(1,p);
-pars.Z = zeros(p);
-
 [model_capped, metric_capped] = capped_fm(training, validation, pars);
 
+%% capped norm with increnmental svd
+rng('default');
+disp('Training with capped norm...')
+pars.alpha = 1e-3;
+pars.beta = 1e-3;
+
+pars.epsilon1 = 1e-2;
+pars.epsilon2 = 1;
+pars.epsilon3 = 1;
+pars.minibatch = 1;
+
+pars.w0 = zeros(1);
+pars.W = zeros(1,p);
+pars.Z = zeros(p, p);
+
+pars.truncated_k = 5;
+
+pars.learning_rate = 1e3;
+pars.t0 = 1e5;
+
+% pars.w0 = model_no_capped.w0;
+% pars.W = model_no_capped.W;
+% pars.Z = model_no_capped.Z; 
+
+[model_capped_inc, metric_capped_inc] = capped_fm_inc(training, validation, pars);
 %% plot
 % SVM
 plot(metric_svm.loss_fm_test(1,:),'g--o','DisplayName','svm');

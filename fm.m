@@ -92,7 +92,7 @@ function [ model, metric ] = fm( training, validation, pars )
                     end
                 end
 
-                 if strcmp(task, 'multi-classification')
+                if strcmp(task, 'multi-classification')
                     err = max(0, 1-y.*y_predict);
                     loss = loss + sum(err);
                     
@@ -100,9 +100,9 @@ function [ model, metric ] = fm( training, validation, pars )
                     for u=1:class_num
                         if err(u) > 0
                             w0_ = learning_rate / (idx + t0) * (-y(u));
-                            w0 = w0 - w0_;
+                            w0(u) = w0(u) - w0_;
                             W_ = learning_rate / (idx + t0) * (-y(u)*X(nz_idx) + 2 * reg * W(nz_idx));
-                            W(nz_idx) = W(nz_idx) - W_;
+                            W(u,nz_idx) = W(u,nz_idx) - W_;
                             V_ = learning_rate / (idx + t0)...
                                 * (-y(u)*(repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*squeeze(V(u,nz_idx,:)),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*squeeze(V(u,nz_idx,:)))));
                             V(u,nz_idx,:) = squeeze(V(u,nz_idx,:)) - V_;
