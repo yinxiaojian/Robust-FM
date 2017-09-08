@@ -93,14 +93,14 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		phishing           & Train loss & Test loss & Acc(\%)  \\
 		\hline
-		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{Ridge} 	 &0.3037$\pm$0.0002  &0.3172$\pm$0.0015  &  92.65 $\pm$ 0.11    \\ \hline
 		\textbf{SVM} 	 &0.1451$\pm$0.0002  &0.1590$\pm$0.0058  &  93.26 $\pm$ 0.30    \\ \hline
 		\textbf{FM} 	  	&0.1397$\pm$0.0002 &0.1534$\pm$0.0006  &93.35 $\pm$ 0.10   \\ \hline
 		\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
-		\textbf{RobFM}   	&\textbf{0.1145$\pm$0.0004} &\textbf{0.1357$\pm$0.0051}  &\textbf{94.59 $\pm$ 0.33}   \\ \hline
+		\textbf{RobFM}   	&\textbf{0.1145$\pm$0.0004} &\textbf{0.1357$\pm$0.0051}  &\textbf{94.59 $\pm$ 0.33}   \\ \hline \hline
 		w8a               & Train loss & Test loss & Acc(\%) \\
 		\hline
-		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{Ridge} 	 &0.0706$\pm$0.0004  &0.0730$\pm$0.0096  & 98.34 $\pm$ 0.02    \\ \hline
 		\textbf{SVM} 	 &0.0305$\pm$0.0006  &0.0316$\pm$0.0003  & 98.65 $\pm$ 0.02   \\ \hline
 		\textbf{FM} 	 &0.0234$\pm$0.0010  &0.0245$\pm$0.0002  & 98.86 $\pm$ 0.07   \\ \hline
 		\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
@@ -108,7 +108,7 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		protein               & Train loss & Test loss & Acc(\%) \\
 		\hline
-		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{Ridge} 	 &1.8807$\pm$0.0002  &1.8828$\pm$0.0035  & 68.95 $\pm$ 0.06    \\ \hline
 		\textbf{SVM} 	 &1.5369$\pm$0.0002  &1.5198$\pm$0.0014  & 68.61 $\pm$ 0.07    \\ \hline
 		\textbf{FM} 	 &1.3757$\pm$0.0002  &1.4668$\pm$0.0016  &69.21 $\pm$ 0.10    \\ \hline
 		\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
@@ -116,7 +116,7 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		IJCNN              & Train loss & Test loss & Acc(\%) \\
 		\hline
-		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{Ridge} 	 &0.3147$\pm$0.0007  &0.3173$\pm$0.0016  &  90.50 $\pm$ 0.00    \\ \hline
 		\textbf{SVM} 	 &0.1770$\pm$0.0004  &0.1843$\pm$0.0003  & 91.35 $\pm$ 0.02    \\ \hline
 		\textbf{FM} 	 &0.0930$\pm$0.0005  &0.0955$\pm$0.0004  & 96.66 $\pm$ 0.09 \\ \hline
 		\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
@@ -124,7 +124,7 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		Covtype           & Train loss & Test loss & Acc(\%)  \\
 		\hline
-		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
+		\textbf{Ridge} 	 &0.7779$\pm$0.0002  &0.7780$\pm$0.0001  & 70.07 $\pm$ 0.04    \\ \hline
 		\textbf{SVM} 	 &0.6080$\pm$0.0003  &0.6102$\pm$0.0002  & 68.76 $\pm$ 0.06    \\ \hline
 		\textbf{FM} 	  	&0.5111$\pm$0.0001 &0.5088$\pm$0.0030  &77.31 $\pm$ 0.10   \\ \hline
 		\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
@@ -132,8 +132,8 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 		\hline
 		MNIST           & Train loss & Test loss & Acc(\%)  \\
 		\hline
-		\textbf{LR} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
-		\textbf{SVM} 	 &0.5957$\pm$0.0008  &0.5776$\pm$0.0007  &91.64  $\pm$ 0.13   \\ \hline
+		\textbf{Ridge} 	 &0.8434$\pm$0.0002  &0.8257$\pm$0.0069  &91.56 $\pm$ 0.12   \\ \hline
+		\textbf{SVM} 	 &0.5957$\pm$0.0008  &0.5776$\pm$0.0007  &91.64 $\pm$ 0.13   \\ \hline
 		\textbf{FM} 	 &0.2224$\pm$0.0005 &0.2949$\pm$0.0034  &96.62 $\pm$ 0.08   \\ \hline
 		\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
 		\textbf{RobFM}   	&\textbf{$\pm$} &\textbf{$\pm$}  &\textbf{$\pm$}   \\ \hline

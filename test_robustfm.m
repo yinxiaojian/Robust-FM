@@ -8,7 +8,7 @@ validation.test_Y = test_Y;
 % pack paras
 pars.task = 'binary-classification';
 % pars.task = 'multi-classification';
-pars.iter_num = 1;
+pars.iter_num = 5;
 pars.epoch = 10;
 pars.minibatch = 10;
 
@@ -16,6 +16,17 @@ pars.minibatch = 10;
 [~, p] = size(train_X);
 class_num = max(train_Y);
 
+%% ridge classifier
+rng('default');
+pars.reg = 1e-2;
+pars.w0 = zeros(class_num, 1);
+pars.W = zeros(class_num,p);
+
+pars.learning_rate = 1e2;
+pars.t0 = 1e5;
+
+disp('Training ridge classifier...')
+[model_ridge, metric_ridge] = ridge(training, validation, pars);
 %% svm
 rng('default');
 pars.reg = 1e-3;
@@ -70,14 +81,14 @@ pars.t0 = 1e5;
 
 %% capped norm with increnmental svd
 rng('default');
-disp('Training with capped norm...')
+disp('Training with capped norm via inc SVD...')
 pars.alpha = 1e-3;
 pars.beta = 1e-3;
 
 pars.epsilon1 = 1e-2;
-pars.epsilon2 = 1;
-pars.epsilon3 = 1;
-pars.minibatch = 1;
+pars.epsilon2 = 5;
+pars.epsilon3 = 1e-3;
+pars.minibatch = 10;
 
 pars.w0 = zeros(1);
 pars.W = zeros(1,p);

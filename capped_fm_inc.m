@@ -124,12 +124,15 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                             W = W - W_;
                             
                             % truncated SVD
-                            if first
-                                [U, S,~] = truncated_svd(Z, truncated_k);
-%                                 first = 0;
-%                             else
-%                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
-                            end
+                            [U,~,r] = truncated_svd(Z, epsilon3);
+                            % [U,~,~] = truncated_svd(Z, epsilon3);
+                            rank = rank + r;
+%                             if first
+%                                 [U, S,~] = truncated_svd(Z, truncated_k);
+% %                                 first = 0;
+% %                             else
+% %                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+%                             end
 
                             
                             
@@ -140,24 +143,25 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                             
 %                             P = U*U';
 %                             tmp = size(P,1);
-                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (U * U') .* Z);
+                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (U' * U) .* Z);
 %                             Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * P .* Z);
                             Z = Z - Z_;
 
                             % project on PSD cone!
-                            if first==1
-                                Z = psd_cone(Z);
-                                first = 0;
-                            else
-                                S(S<0) = 0;
-                                Z = U * S * U';
-                            end
+                            Z = psd_cone(Z);
+%                             if first==1
+%                                 Z = psd_cone(Z);
+%                                 first = 0;
+%                             else
+%                                 S(S<0) = 0;
+%                                 Z = U * S * U';
+%                             end
                             
-                            if first == 0
-                                A = [A sqrt(S)*U];
-%                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
-                                [U, S] = Incsvd(U, S, sqrt(learning_rate / (idx + t0))*A);
-                            end
+%                             if first == 0
+%                                 A = [A U*sqrt(S)*U'];
+% %                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
+%                                 [U, S] = Incsvd(U, S, -sqrt(learning_rate / (idx + t0))*A);
+%                             end
                             
                         end
                     end
