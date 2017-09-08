@@ -109,9 +109,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                         
 
                         % truncated SVD
-%                             [U,~,r] = truncated_svd(Z, epsilon3);
-                        [U,~,~] = truncated_svd(Z, epsilon3);
-                        rank = rank + truncated_k;
+                        [U,~,r] = truncated_svd(Z, epsilon3);
+%                         [U,~,~] = truncated_svd(Z, epsilon3);
+                        rank = rank + r;
                         
                         obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                         
@@ -119,7 +119,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                         Z = Z - Z_;
 
                         % project on PSD cone!
-%                         Z = psd_cone(Z);
+                        Z = psd_cone(Z);
                         
                     end
 

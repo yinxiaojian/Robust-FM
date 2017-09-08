@@ -8,7 +8,7 @@ validation.test_Y = test_Y;
 % pack paras
 pars.task = 'binary-classification';
 % pars.task = 'multi-classification';
-pars.iter_num = 5;
+pars.iter_num = 1;
 pars.epoch = 10;
 pars.minibatch = 10;
 
@@ -44,9 +44,19 @@ rng('default');
 
 pars.reg = 1e-3;
 pars.factors_num =10;
-pars.w0 = zeros(class_num, 1);
-pars.W = zeros(class_num,p);
-pars.V = 0.1*randn(class_num,p,pars.factors_num);
+
+if strcmp(pars.task, 'binary-classification')
+    pars.w0 = 0;
+    pars.W = zeros(1,p);
+    pars.V = 0.1*randn(p,pars.factors_num);
+end
+
+if strcmp(pars.task, 'multi-classification')
+    pars.w0 = zeros(class_num, 1);
+    pars.W = zeros(class_num,p);
+    pars.V = 0.1*randn(class_num,p,pars.factors_num);
+end
+
 
 pars.learning_rate = 1e2;
 pars.t0 = 1e5;
@@ -60,13 +70,21 @@ disp('Training with capped norm...')
 pars.alpha = 1e-3;
 pars.beta = 1e-3;
 
-pars.epsilon1 = 1e-1;
-pars.epsilon2 = 5;
-pars.epsilon3 = 1;
+pars.epsilon1 = 1e-2;
+pars.epsilon2 = 10;
+pars.epsilon3 = 1e-1;
 
-pars.w0 = zeros(class_num, 1);
-pars.W = zeros(class_num,1,p);
-pars.Z = zeros(class_num,p, p);
+if strcmp(pars.task, 'binary-classification')
+    pars.w0 = 0;
+    pars.W = zeros(1,p);
+    pars.Z = zeros(p,p);
+end
+
+if strcmp(pars.task, 'multi-classification')
+    pars.w0 = zeros(class_num, 1);
+    pars.W = zeros(class_num,p);
+    pars.Z = zeros(class_num,p,p);
+end
 
 pars.truncated_k = 5;
 
