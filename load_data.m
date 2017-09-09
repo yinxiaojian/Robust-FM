@@ -72,6 +72,9 @@ usps_test = 'data/usps/test_data';
 protein_train = 'data/protein/train_data';
 protein_test = 'data/protein/test_data';
 
+connect4_train = 'data/connect-4/train_data';
+connect4_test = 'data/connect-4/test_data';
+
 %% regression task
 ONP_train = 'data/OnlineNewsPopularity/train_data';
 ONP_test = 'data/OnlineNewsPopularity/test_data';
@@ -127,14 +130,17 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = ONP_train;
 % test_data = ONP_test;
 
-% training_data = w8a_train;
-% test_data = w8a_test;
+training_data = w8a_train;
+test_data = w8a_test;
 
 % training_data = a9a_train;
 % test_data = a9a_test;
 
-training_data = a7a_train;
-test_data = a7a_test;
+% training_data = a7a_train;
+% test_data = a7a_test;
+
+% training_data = connect4_train;
+% test_data = connect4_test;
 
 load(training_data);
 load(test_data); 

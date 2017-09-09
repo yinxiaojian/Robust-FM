@@ -9,7 +9,7 @@ function [ model, metric ] = capped_fm( training, validation, pars)
     test_X = validation.test_X;
     test_Y = validation.test_Y;
 
-    [num_sample, ~] = size(train_X);
+    [num_sample, p] = size(train_X);
 
     % parameters
     iter_num = pars.iter_num;
@@ -69,9 +69,10 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     y(Y_train(j,:)) = 1;
                 end
 
+                nz_idx = find(X);
 
                 if strcmp(task, 'binary-classification')
-                    y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
+                    y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
                 end
 
                 if strcmp(task, 'multi-classification')
@@ -82,6 +83,8 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                 end
 
                 idx = (t-1)*num_sample + j;
+                
+                
 
                 % SGD update
                 if strcmp(task, 'binary-classification')
@@ -104,22 +107,23 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     if d ~=0
                         w0_ = learning_rate / (idx + t0)*(-y);
                         w0 = w0 - w0_;
-                        W_ = learning_rate / (idx + t0) * (-y*X + alpha * W);
-                        W = W - W_;
+                        W_ = learning_rate / (idx + t0) * (-y*X(nz_idx) + alpha * W(nz_idx));
+                        W(nz_idx) = W(nz_idx) - W_;
                         
 
                         % truncated SVD
-                        [U,~,r] = truncated_svd(Z, epsilon3);
+%                         [U,~,r] = truncated_svd(Z, epsilon3);
 %                         [U,~,~] = truncated_svd(Z, epsilon3);
-                        rank = rank + r;
+                        [U, ~, ~] = truncated_svd_fix(Z, truncated_k);
+                        rank = rank + truncated_k;
                         
-                        obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
+%                         obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                         
-                        Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * (U'*U) .* Z);
+                        Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * (eye(p) - U*U') .* Z);
                         Z = Z - Z_;
 
                         % project on PSD cone!
-                        Z = psd_cone(Z);
+%                         Z = psd_cone(Z);
                         
                     end
 
@@ -173,10 +177,10 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             end
 
             loss_fm_train(i,t) = loss / num_sample;
-            rank_fm(i, t) = rank/(num_sample-outlier);
+            rank_fm(i, t) = rank/(num_sample-outlier-noise);
             outlier_fm(i,t) = outlier/num_sample;
             noise_fm(i, t) = noise/num_sample;
-            obj_fm(i,t) = obj/(num_sample-outlier);
+            obj_fm(i,t) = obj/(num_sample-outlier-noise);
             
             fprintf('[iter %d epoch %2d]---train loss:%.4f\t',i, t, loss_fm_train(i,t));  
 

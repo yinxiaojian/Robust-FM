@@ -27,7 +27,7 @@ if flag==0
     if issparse(Ra)~=0
         Ra=full(Ra);
     end
-    P=orth(Ra); 
+    Pi=orth(Ra); 
     
     RA=P'*Ra;
     Ktmp=[UA;RA]*[UA;RA]';

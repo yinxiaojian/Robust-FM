@@ -9,8 +9,8 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
     test_X = validation.test_X;
     test_Y = validation.test_Y;
 
-    [num_sample, ~] = size(train_X);
-
+    [num_sample, p] = size(train_X);
+  
     % parameters
     iter_num = pars.iter_num;
     learning_rate = pars.learning_rate;
@@ -84,7 +84,7 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                         
 
                         if err > epsilon1 && err < epsilon1 + epsilon2
-                            d = 1/2/(err - epsilon1);
+%                             d = 1/2/(err - epsilon1);
 %                             obj = obj + d*(err-epsilon1)^2; 
                             
                             g_1 = g_1 - y;
@@ -124,12 +124,12 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                             W = W - W_;
                             
                             % truncated SVD
-                            [U,~,r] = truncated_svd(Z, epsilon3);
+%                             [U,S,~] = truncated_svd_fix(Z, truncated_k);
                             % [U,~,~] = truncated_svd(Z, epsilonv  3);
-                            rank = rank + r;
+%                             rank = rank + truncated_k;
                             if first
-                                [U, S,~] = truncated_svd(Z, truncated_k);
-%                                 first = 0;
+                                [U, S,~] = truncated_svd_fix(Z, truncated_k);
+                                first = 0;
 %                             else
 %                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
                             end
@@ -143,24 +143,26 @@ function [ model, metric ] = capped_fm_inc( training, validation, pars)
                             
 %                             P = U*U';
 %                             tmp = size(P,1);
-                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (U' * U) .* Z);
+                            Z_ = learning_rate / (idx + t0) * (g_3+beta * (eye(p) - U * U') .* Z);
 %                             Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * P .* Z);
                             Z = Z - Z_;
 
                             % project on PSD cone!
-                            Z = psd_cone(Z);
-                            if first==1
-                                Z = psd_cone(Z);
-                                first = 0;
-                            else
-                                S(S<0) = 0;
-                                Z = U * S * U';
-                            end
+                            % Z = psd_cone(Z);
+%                             if first==1
+%                                 Z = psd_cone(Z);
+%                                 first = 0;
+%                             else
+%                                 S(S<0) = 0;
+%                                 Z = U * S * U';
+%                             end
                             
                             if first == 0
-                                A = [A U*sqrt(S)*U'];
+                                A = [A eye(p) - U*U'];
 %                                 [U, S] = incremental_svd(Z, A, U, S, learning_rate / (idx + t0));
                                 [U, S] = Incsvd(U, S, -sqrt(learning_rate / (idx + t0))*A);
+                                U = U(:,1:truncated_k);
+                                S = S(1:truncated_k, 1:truncated_k);
                             end
                             
                         end
