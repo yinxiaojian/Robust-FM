@@ -103,8 +103,8 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = phishing_train;
 % test_data = phishing_test;
 
-% training_data = ijcnn_train;
-% test_data = ijcnn_test;
+training_data = ijcnn_train;
+test_data = ijcnn_test;
 
 % training_data = rcv1_train;
 % test_data = rcv1_test;
@@ -130,8 +130,8 @@ ONP_test = 'data/OnlineNewsPopularity/test_data';
 % training_data = ONP_train;
 % test_data = ONP_test;
 
-training_data = w8a_train;
-test_data = w8a_test;
+% training_data = w8a_train;
+% test_data = w8a_test;
 
 % training_data = a9a_train;
 % test_data = a9a_test;
@@ -139,8 +139,8 @@ test_data = w8a_test;
 % training_data = a7a_train;
 % test_data = a7a_test;
 
-% training_data = connect4_train;
-% test_data = connect4_test;
+training_data = connect4_train;
+test_data = connect4_test;
 
 load(training_data);
 load(test_data); 

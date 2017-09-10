@@ -68,7 +68,7 @@ if strcmp(pars.task, 'multi-classification')
 end
 
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e2;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -78,11 +78,11 @@ disp('Training FM...')
 rng('default');
 disp('Training with capped norm...')
 pars.alpha = 1e-3;
-pars.beta = 1e-3;
+pars.beta = 1e-2;
 
 pars.epsilon1 = 1e-2;
-pars.epsilon2 = 5;
-pars.epsilon3 = 0.5;
+pars.epsilon2 = 3;
+pars.epsilon3 = 1;
 
 if strcmp(pars.task, 'binary-classification')
     pars.w0 = 0;
@@ -96,9 +96,9 @@ if strcmp(pars.task, 'multi-classification')
     pars.Z = zeros(class_num,p,p);
 end
 
-pars.truncated_k = 10;
+pars.truncated_k = 5;
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e2;
 pars.t0 = 1e5;
 
 % pars.w0 = model_no_capped.w0;
@@ -205,19 +205,52 @@ legend('-DynamicLegend');
 plot(robust_x, robust_loss, 'r--', 'DisplayName', 'robust-fm');
 legend('-DynamicLegend');
 
-%% noise on RMSE
+%% noise on hinge loss
 
-% w8a
-rank = [0, 0.1, 0.2, 0.3, 0.4, 0.5];
-loss = [0.0245, 0.0349, 0.3006, 0.2787, 0.2713, 0.2700];
+%% phishing
+rank = [0, 0.1, 0.2, 0.3];
+loss = [0.1536, 0.2111, 0.2272, 0.2426];
 
-robust_x = [0, 50];
-robust_loss = [0.2466, 0.2466];
+robust_rank = [0, 0.1, 0.2, 0.3];
+robust_loss = [0.1380, 0.1556, 0.1571,0.1591];
 xlabel('rank');
 ylabel('hinge loss');
 grid on;
 hold on;
 plot(rank, loss, 'b--o', 'DisplayName', 'fm');
 legend('-DynamicLegend');
-plot(robust_x, robust_loss, 'r--', 'DisplayName', 'robust-fm');
+plot(robust_rank, robust_loss, 'r--o', 'DisplayName', 'robust-fm');
+legend('-DynamicLegend');
+
+%% connect-4
+rank = [0, 0.1, 0.2, 0.3];
+loss = [0.0955, 0.1540, 0.1878, 0.1907];
+
+robust_rank = [0, 0.1, 0.2, 0.3];
+robust_loss = [0.1380, 0.1556, 0.1571,0.1591];
+xlabel('rank');
+ylabel('hinge loss');
+grid on;
+hold on;
+plot(rank, loss, 'b--o', 'DisplayName', 'fm');
+legend('-DynamicLegend');
+plot(robust_rank, robust_loss, 'r--o', 'DisplayName', 'robust-fm');
+legend('-DynamicLegend');
+
+%% epsilon on hinge loss
+epsilon = [1e-2, 5e-2, 1e-1, 5e-1, 1];
+loss = [0.2478, 0.2475, 0.2466, 0.2470, 0.2522];
+
+% robust_rank = [0, 0.1, 0.2, 0.3];
+% robust_loss = [0.1380, 0.1556, 0.1571,0.1591];
+
+fm_x = [0,1];
+fm_loss = [0.2787,0.2787];
+xlabel('\epsilon_3');
+ylabel('hinge loss');
+grid on;
+hold on;
+plot(epsilon, loss, 'r--o', 'DisplayName', 'robust-fm');
+legend('-DynamicLegend');
+plot(fm_x, fm_loss, 'b--', 'DisplayName', 'fm');
 legend('-DynamicLegend');

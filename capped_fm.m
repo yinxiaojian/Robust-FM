@@ -69,10 +69,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     y(Y_train(j,:)) = 1;
                 end
 
-                nz_idx = find(X);
 
                 if strcmp(task, 'binary-classification')
-                    y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
+                    y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
                 end
 
                 if strcmp(task, 'multi-classification')
@@ -107,23 +106,24 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     if d ~=0
                         w0_ = learning_rate / (idx + t0)*(-y);
                         w0 = w0 - w0_;
-                        W_ = learning_rate / (idx + t0) * (-y*X(nz_idx) + alpha * W(nz_idx));
-                        W(nz_idx) = W(nz_idx) - W_;
+                        W_ = learning_rate / (idx + t0) * (-y*X + alpha * W);
+                        W = W - W_;
                         
 
                         % truncated SVD
-%                         [U,~,r] = truncated_svd(Z, epsilon3);
+                        [U,~,r] = truncated_svd(Z, epsilon3);
+                        rank = rank + r;
 %                         [U,~,~] = truncated_svd(Z, epsilon3);
-                        [U, ~, ~] = truncated_svd_fix(Z, truncated_k);
-                        rank = rank + truncated_k;
+%                         [U, ~, ~] = truncated_svd_fix(Z, truncated_k);
+%                         rank = rank + truncated_k;
                         
 %                         obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
                         
-                        Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * (eye(p) - U*U') .* Z);
+                        Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * (U'*U) .* Z);
                         Z = Z - Z_;
 
                         % project on PSD cone!
-%                         Z = psd_cone(Z);
+                        Z = psd_cone(Z);
                         
                     end
 
