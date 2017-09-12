@@ -89,54 +89,54 @@ We conduct our experiments on four public datasets. Table \ref{tab0} gives a bri
 
 \subsection{Experimental Results}
 \begin{table*}
-	\begin{tabu} to \textwidth {|X[c]| X[c]| X[c]| X[c]|}
+	\begin{tabu} to \textwidth {|X[c]| X[c]| X[c]| X[c]| X[c]|}
 		\hline
-		phishing           & Train loss & Test loss & Acc(\%)  \\
+		phishing           & Train loss & Test loss & Acc(\%) & Train time \\
 		\hline
-		\textbf{Ridge} 	 &0.3037$\pm$0.0002  &0.3172$\pm$0.0015  &  92.65 $\pm$ 0.11   \\ \hline
-		\textbf{SVM} 	 &0.1451$\pm$0.0002  &0.1590$\pm$0.0058  &  93.26 $\pm$ 0.30   \\ \hline
-		\textbf{FM} 	  	&0.1397$\pm$0.0002 &0.1534$\pm$0.0006  &93.35 $\pm$ 0.10  \\ \hline
+		\textbf{Ridge} 	 &0.3037$\pm$0.0002  &0.3172$\pm$0.0015  &  92.65 $\pm$ 0.11 &$\times$1.24   \\ \hline
+		\textbf{SVM} 	 &0.1451$\pm$0.0002  &0.1590$\pm$0.0058  &  93.26 $\pm$ 0.30 &$\times$1  \\ \hline
+		\textbf{FM} 	  	&0.1397$\pm$0.0002 &0.1534$\pm$0.0006  &93.35 $\pm$ 0.10 &$\times$2.64 \\ \hline
 		%\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  & $\pm$   \\ \hline
-		\textbf{RobFM}   	&\textbf{0.1145$\pm$0.0004} &\textbf{0.1357$\pm$0.0051}  &\textbf{94.59 $\pm$ 0.33}   \\ \hline \hline
-		w8a               & Train loss & Test loss & Acc(\%)  \\
+		\textbf{RobFM}   	&\textbf{0.1145$\pm$0.0004} &\textbf{0.1357$\pm$0.0051}  &\textbf{94.59 $\pm$ 0.33}   &$\times$2.34 \\ \hline \hline
+		w8a               & Train loss & Test loss & Acc(\%) & Train time \\
 		\hline
-		\textbf{Ridge} 	 &0.0706$\pm$0.0004  &0.0730$\pm$0.0096  & 98.34 $\pm$ 0.02   \\ \hline
-		\textbf{SVM} 	 &0.0305$\pm$0.0006  &0.0316$\pm$0.0003  & 98.65 $\pm$ 0.02   \\ \hline
-		\textbf{FM} 	 &0.0234$\pm$0.0010  &0.0245$\pm$0.0002  & 98.86 $\pm$ 0.07  \\ \hline
+		\textbf{Ridge} 	 &0.0706$\pm$0.0004  &0.0730$\pm$0.0096  & 98.34 $\pm$ 0.02 &$\times$1.41  \\ \hline
+		\textbf{SVM} 	 &0.0305$\pm$0.0006  &0.0316$\pm$0.0003  & 98.65 $\pm$ 0.02 &$\times$1  \\ \hline
+		\textbf{FM} 	 &0.0234$\pm$0.0010  &0.0245$\pm$0.0002  & 98.86 $\pm$ 0.07 &$\times$2.47 \\ \hline
 		%\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
-		\textbf{RobFM}   &\textbf{0.0178$\pm$0.0007}  &\textbf{0.0190$\pm$0.0003}  &\textbf{99.10 $\pm$ 0.06}   \\ \hline
+		\textbf{RobFM}   &\textbf{0.0178$\pm$0.0007}  &\textbf{0.0190$\pm$0.0003}  &\textbf{99.10 $\pm$ 0.06}   &$\times$5.25 \\ \hline
 		\hline
-		protein               & Train loss & Test loss & Acc(\%)  \\
+		protein               & Train loss & Test loss & Acc(\%) & Train time  \\
 		\hline
-		\textbf{Ridge} 	 &0.6398$\pm$0.0003  &0.6254$\pm$0.0040  & 80.24 $\pm$ 0.08    \\ \hline
-		\textbf{SVM} 	 &0.5187$\pm$0.0001  &0.4870$\pm$0.0012  & 79.67 $\pm$ 0.06    \\ \hline
-		\textbf{FM} 	 &0.4853$\pm$0.0003  &0.4777$\pm$0.0008  & 79.75 $\pm$ 0.06    \\ \hline
+		\textbf{Ridge} 	 &0.6398$\pm$0.0003  &0.6254$\pm$0.0040  & 80.24 $\pm$ 0.08  &$\times$1.09  \\ \hline
+		\textbf{SVM} 	 &0.5187$\pm$0.0001  &0.4870$\pm$0.0012  & 79.67 $\pm$ 0.06  &$\times$1  \\ \hline
+		\textbf{FM} 	 &0.4853$\pm$0.0003  &0.4777$\pm$0.0008  & 79.75 $\pm$ 0.06  &$\times$2.73  \\ \hline
 		%\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  & $\pm$   \\ \hline
-		\textbf{RobFM}   &\textbf{0.3442$\pm$0.0007}  &\textbf{0.4671$\pm$0.0014}  &\textbf{80.34 $\pm$ 0.18}   \\ \hline
+		\textbf{RobFM}   &\textbf{0.3442$\pm$0.0007}  &\textbf{0.4671$\pm$0.0014}  &\textbf{80.34 $\pm$ 0.18}   &$\times$9.94 \\ \hline
 		\hline
-		IJCNN              & Train loss & Test loss & Acc(\%)  \\
+		IJCNN              & Train loss & Test loss & Acc(\%) & Train time \\
 		\hline
-		\textbf{Ridge} 	 &0.3147$\pm$0.0007  &0.3173$\pm$0.0016  &  90.50 $\pm$ 0.00    \\ \hline
-		\textbf{SVM} 	 &0.1770$\pm$0.0004  &0.1843$\pm$0.0003  & 91.35 $\pm$ 0.02    \\ \hline
-		\textbf{FM} 	 &0.0930$\pm$0.0005  &0.0955$\pm$0.0004  & 96.66 $\pm$ 0.09  \\ \hline
+		\textbf{Ridge} 	 &0.3147$\pm$0.0007  &0.3173$\pm$0.0016  &  90.50 $\pm$ 0.00 &$\times$1.61   \\ \hline
+		\textbf{SVM} 	 &0.1770$\pm$0.0004  &0.1843$\pm$0.0003  & 91.35 $\pm$ 0.02  &$\times$1  \\ \hline
+		\textbf{FM} 	 &0.0930$\pm$0.0005  &0.0955$\pm$0.0004  & 96.66 $\pm$ 0.09  &$\times$3.87 \\ \hline
 		%\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
-		\textbf{RobFM} 	 &\textbf{0.0712$\pm$0.0001}  &\textbf{0.0744$\pm$0.0013}  & \textbf{97.83 $\pm$ 0.15}  \\ \hline
+		\textbf{RobFM} 	 &\textbf{0.0712$\pm$0.0001}  &\textbf{0.0744$\pm$0.0013}  & \textbf{97.83 $\pm$ 0.15}  &$\times$1.48 \\ \hline
 		\hline
-		Covtype           & Train loss & Test loss & Acc(\%)  \\
+		Covtype           & Train loss & Test loss & Acc(\%)  & Train time \\
 		\hline
-		\textbf{Ridge} 	 &0.7779$\pm$0.0002  &0.7780$\pm$0.0001  & 70.07 $\pm$ 0.04    \\ \hline
-		\textbf{SVM} 	 &0.6080$\pm$0.0003  &0.6102$\pm$0.0002  & 68.76 $\pm$ 0.06   \\ \hline
-		\textbf{FM} 	  	&0.5111$\pm$0.0001 &0.5088$\pm$0.0030  &77.31 $\pm$ 0.10   \\ \hline
+		\textbf{Ridge} 	 &0.7779$\pm$0.0002  &0.7780$\pm$0.0001  & 70.07 $\pm$ 0.04 &$\times$1.15   \\ \hline
+		\textbf{SVM} 	 &0.6080$\pm$0.0003  &0.6102$\pm$0.0002  & 68.76 $\pm$ 0.06 &$\times$1  \\ \hline
+		\textbf{FM} 	  	&0.5111$\pm$0.0001 &0.5088$\pm$0.0030  &77.31 $\pm$ 0.10 &$\times$1.61  \\ \hline
 		%\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
-		\textbf{RobFM}   	&\textbf{0.4894$\pm$0.0001} &\textbf{0.4844$\pm$0.0066}  &\textbf{79.65 $\pm$ 0.25}   \\ \hline
+		\textbf{RobFM}   	&\textbf{0.4894$\pm$0.0001} &\textbf{0.4844$\pm$0.0066}  &\textbf{79.65 $\pm$ 0.25}   &$\times$3.69 \\ \hline
 		\hline
-		connect-4           & Train loss & Test loss & Acc(\%)   \\
+		connect-4           & Train loss & Test loss & Acc(\%) & Train time   \\
 		\hline
-		\textbf{Ridge} 	 &0.5505$\pm$0.0001  &0.5406$\pm$0.0071  &82.97 $\pm$ 0.26   \\ \hline
-		\textbf{SVM} 	 &0.4020$\pm$0.0010  &0.4002$\pm$0.0010  &83.02 $\pm$ 0.12   \\ \hline
-		\textbf{FM} 	 &0.2758$\pm$0.0008 &0.2787$\pm$0.0038  &88.52 $\pm$ 0.16    \\ \hline
+		\textbf{Ridge} 	 &0.5505$\pm$0.0001  &0.5406$\pm$0.0071  &82.97 $\pm$ 0.26 &$\times$1.14  \\ \hline
+		\textbf{SVM} 	 &0.4020$\pm$0.0010  &0.4002$\pm$0.0010  &83.02 $\pm$ 0.12 &$\times$1  \\ \hline
+		\textbf{FM} 	 &0.2758$\pm$0.0008 &0.2787$\pm$0.0038  &88.52 $\pm$ 0.16  &$\times$3.69  \\ \hline
 		%\textbf{RobFM-IncSVD} 	 &$\pm$  &$\pm$  &  $\pm$    \\ \hline
-		\textbf{RobFM}   	&\textbf{0.2478$\pm$0.0013} &\textbf{0.2466$\pm$0.0027}  &\textbf{89.90 $\pm$ 0.31}   \\ \hline
+		\textbf{RobFM}   	&\textbf{0.2478$\pm$0.0013} &\textbf{0.2466$\pm$0.0027}  &\textbf{89.90 $\pm$ 0.31}   &$\times$1.58 \\ \hline
 		
 	\end{tabu}
 	\caption{Comparison of different algorithms in terms of train loss, test loss, classification accuracy}

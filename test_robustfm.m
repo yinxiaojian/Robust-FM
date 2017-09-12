@@ -19,7 +19,7 @@ validation.test_Y = test_Y;
 pars.task = 'binary-classification';
 % pars.task = 'multi-classification';
 pars.iter_num = 1;
-pars.epoch = 10;
+pars.epoch = 2;
 pars.minibatch = 10;
 
 % initial model
@@ -68,7 +68,7 @@ if strcmp(pars.task, 'multi-classification')
 end
 
 
-pars.learning_rate = 1e2;
+pars.learning_rate = 1e3;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -78,34 +78,26 @@ disp('Training FM...')
 rng('default');
 disp('Training with capped norm...')
 pars.alpha = 1e-3;
-pars.beta = 1e-2;
+pars.beta = 1e-1;
 
 pars.epsilon1 = 1e-2;
-pars.epsilon2 = 3;
-pars.epsilon3 = 1;
+pars.epsilon2 = 10;
+pars.epsilon3 = 0.5;
 
-if strcmp(pars.task, 'binary-classification')
-    pars.w0 = 0;
-    pars.W = zeros(1,p);
-    pars.Z = zeros(p,p);
-end
+pars.w0 = 0;
+pars.W = zeros(1,p);
+pars.Z = zeros(p,p);
 
-if strcmp(pars.task, 'multi-classification')
-    pars.w0 = zeros(class_num, 1);
-    pars.W = zeros(class_num,p);
-    pars.Z = zeros(class_num,p,p);
-end
+pars.truncated_k = 2;
 
-pars.truncated_k = 5;
-
-pars.learning_rate = 1e2;
+pars.learning_rate = 1e1;
 pars.t0 = 1e5;
 
 % pars.w0 = model_no_capped.w0;
 % pars.W = model_no_capped.W;
 % pars.Z = model_no_capped.Z; 
 
-[model_capped, metric_capped] = capped_fm(training, validation, pars);
+[model_capped, metric_capped] = capped_fm_batch(training, validation, pars);
 
 %% capped norm with increnmental svd
 rng('default');
