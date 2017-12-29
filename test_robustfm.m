@@ -19,7 +19,7 @@ validation.test_Y = test_Y;
 pars.task = 'binary-classification';
 % pars.task = 'multi-classification';
 pars.iter_num = 1;
-pars.epoch = 2;
+pars.epoch = 10;
 pars.minibatch = 10;
 
 % initial model

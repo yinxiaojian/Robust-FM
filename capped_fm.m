@@ -40,7 +40,6 @@ function [ model, metric ] = capped_fm( training, validation, pars)
     for i=1:iter_num
 
         tic;
-    
         w0 = pars.w0;
         W = pars.W;
         Z = pars.Z;
@@ -64,27 +63,12 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     y = Y_train(j,:);
                 end
 
-                if strcmp(task, 'multi-classification')
-                    y = -ones(1, class_num);
-                    y(Y_train(j,:)) = 1;
-                end
-
-
                 if strcmp(task, 'binary-classification')
                     y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
                 end
 
-                if strcmp(task, 'multi-classification')
-                    y_predict = zeros(1, class_num);
-                    for u = 1:class_num
-                        y_predict(u) = w0(u) + W(u,:)*X';
-                    end
-                end
-
                 idx = (t-1)*num_sample + j;
                 
-                
-
                 % SGD update
                 if strcmp(task, 'binary-classification')
                     
@@ -109,7 +93,6 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                         W_ = learning_rate / (idx + t0) * (-y*X + alpha * W);
                         W = W - W_;
                         
-
                         % truncated SVD
                         [U,~,r] = truncated_svd(Z, epsilon3);
                         rank = rank + r;
@@ -118,62 +101,13 @@ function [ model, metric ] = capped_fm( training, validation, pars)
 %                         rank = rank + truncated_k;
                         
 %                         obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
-                        
                         Z_ = learning_rate / (idx + t0) * (-y*(X'*X)+beta * (U'*U) .* Z);
                         Z = Z - Z_;
 
                         % project on PSD cone!
                         Z = psd_cone(Z);
-                        
                     end
-
                 end
-
-                if strcmp(task, 'multi-classification')
-                    
-                    % hinge loss
-                    err = max(0, 1-y.*y_predict);
-                    loss = loss + sum(err);
-                    
-                    for u=1:class_num
-                        if err(u) > epsilon1 && err(u) < epsilon1 + epsilon2
-                            d = 1/2/(err(u) - epsilon1);
-                        elseif err <= epsilon1
-                            d = 0;
-                            noise = noise + 1;
-                        else
-                            d = 0;
-                            outlier = outlier + 1;
-                        end
-    %                         d = 1;
-
-                        if d ~=0
-                            w0_ = learning_rate / (idx + t0)*(-y(u));
-                            w0(u) = w0(u) - w0_;
-                            W_ = learning_rate / (idx + t0) * (-y(u)*X + alpha * W(u,:));
-                            W(u,:) = W(u,:) - W_;
-                            
-
-                            % truncated SVD
-%                             [U,~,r] = truncated_svd(squeeze(Z(u,:,:)), epsilon3);
-%                             rank = rank + r;
-                            [U,~,~] = truncated_svd_fix(squeeze(Z(u,:,:)), truncated_k);
-                            rank = rank + truncated_k;
-                            
-                            % obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
-                            
-                            Z_ = learning_rate / (idx + t0) * (-y(u)*(X'*X)+beta * (U*U') .* squeeze(Z(u,:,:)));
-                            Z(u,:,:) = squeeze(Z(u,:,:)) - Z_;
-
-                            % project on PSD cone!
-%                             Z(u,:,:) = psd_cone(squeeze(Z(u,:,:)));
-                            
-                        end    
-                    end
-                    
-
-                end
-
             end
 
             loss_fm_train(i,t) = loss / num_sample;
@@ -206,22 +140,6 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     loss = loss + err;
 
                     if (y_predict>=0 && y==1) || (y_predict<0&&y==-1)
-                        correct_num = correct_num + 1;
-                    end
-                end
-
-                if strcmp(task, 'multi-classification')
-                    y_predict = zeros(1, class_num);
-                    for u = 1:class_num
-                        y_predict(u) = w0(u) + W(u,:)*X';
-                    end
-
-                    err = max(0, 1-y.*y_predict);
-                    loss = loss + sum(err);
-                    [~, label] = max(y_predict);
-                    
-                    % accuracy
-                    if label == test_Y(k,:)
                         correct_num = correct_num + 1;
                     end
                 end
