@@ -36,6 +36,7 @@ function [ model, metric ] = capped_fm_batch( training, validation, pars)
     noise_fm = zeros(iter_num, epoch);
     obj_fm = zeros(iter_num, epoch);
 
+    rng('default');
     for i=1:iter_num
 
         tic;
@@ -54,74 +55,50 @@ function [ model, metric ] = capped_fm_batch( training, validation, pars)
             rank = 0;
             outlier = 0;
             noise = 0;
-%             obj = 0.0;
             
-            for b=1:num_sample/minibatch
-                
+            for b=1:num_sample/minibatch + 1
                 g_1 = 0;
                 g_2 = zeros(1, p);
                 g_3 = zeros(p, p);
                 
-                for j=(b-1)*minibatch + 1: b*minibatch
+                if b*minibatch > num_sample
+                    batch_end = num_sample;
+                else
+                    batch_end = b*minibatch;
+                end
+                for j=(b-1)*minibatch + 1: batch_end
 
                     X = X_train(j,:);
                     y = Y_train(j,:);
                     nz_idx = find(X);
 
-    %                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
-                    y_predict = w0 + W(nz_idx)*X(nz_idx)';
+                    y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
+    %                 y_predict = w0 + W(nz_idx)*X(nz_idx)';
     %                 y_predict = sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
-                    if strcmp(task, 'regression')
-                        err = y_predict - y;
-                        loss = loss + err^2;
-    %                     if err^2 > epsilon1 && err^2 < epsilon1 + epsilon2
-                        g_1 = g_1 + 2 * err;
-                        g_2(nz_idx) = g_2(nz_idx) + 2 * err *X(nz_idx);
-    %                     g_3(nz_idx, nz_idx) = g_3(nz_idx, nz_idx) + 2 * err * (X(nz_idx)'*X(nz_idx));
-    %                     elseif err^2 <= epsilon1
-    %                         noise = noise + 1;
-    %                     else
-    %                         outlier = outlier + 1;
-    %                     end
-                    end
-
-%                     if strcmp(task, 'binary-classification')
-%                         err = max(0, 1-y*y_predict);
-%                         loss = loss + err;
-%     %                     if err > epsilon1 && err < epsilon1 + epsilon2
-%     %                         g_1 = g_1 - y;
-%     %                         g_2(nz_idx) = g_2(nz_idx) - y*X(nz_idx);
-%                         g_3(nz_idx, nz_idx) = g_3(nz_idx, nz_idx) - y * (X(nz_idx)'*X(nz_idx));
-%     %                     elseif err <= epsilon1
-%     %                         noise = noise + 1;
-%     %                     else
-%     %                         outlier = outlier + 1;
-%     %                     end
-%                     end
-
+                    err = y_predict - y;
+                    loss = loss + err^2;
+                    g_1 = g_1 + 2 * err;
+                    g_2(nz_idx) = g_2(nz_idx) + 2 * err *X(nz_idx);
+                    g_3(nz_idx, nz_idx) = g_3(nz_idx, nz_idx) + 2 * err * (X(nz_idx)'*X(nz_idx));
                 end
-
+                
                 % batch update
                 w0_ = learning_rate / t0 / minibatch * g_1;
                 w0 = w0 - w0_;
-                W_ = learning_rate / t0 /minibatch * (g_2 + alpha * W);
+                W_ = learning_rate / t0 / minibatch * (g_2 + alpha * W);
                 W = W - W_;
 
                 % truncated SVD
-    %             [U, ~, ~] = truncated_svd_fix(Z, truncated_k);
-    %             rank = rank + truncated_k;
-    %                         [U,~,~] = truncated_svd(Z, epsilon3);
-    %                         [U, ~, ~] = truncated_svd_fix(Z, truncated_k);
-    %                         rank = rank + truncated_k;
-
-    %                         obj = obj + d*(err-epsilon1)^2 + alpha/2*(W*W')+beta/2*trace(U*(Z*Z')*U');
+                [U, ~, ~] = truncated_svd_fix(Z, truncated_k);
+                rank = rank + truncated_k;
+                Z_ = learning_rate / t0  * 1e2 * (g_3 / minibatch + beta * (eye(p) - U*U') .* Z);
+                Z = Z - Z_;
+                % project on PSD cone!
+                Z = psd_cone(Z);
+                
             end
-%             Z_ = learning_rate / t0 * (g_3 / num_sample + beta * (eye(p) - U*U') .* Z);
-%             Z_ = learning_rate / t0 / num_sample * g_3;
-%             Z = Z - Z_;
-% % 
-%             % project on PSD cone!
-%             Z = psd_cone(Z);
+
+            
 
             loss_fm_train(i,t) = (loss / num_sample);
             if strcmp(task, 'regression')
@@ -130,10 +107,8 @@ function [ model, metric ] = capped_fm_batch( training, validation, pars)
             rank_fm(i, t) = rank;
             outlier_fm(i,t) = outlier/num_sample;
             noise_fm(i, t) = noise/num_sample;
-%             obj_fm(i,t) = obj/(num_sample-outlier-noise);
             
             fprintf('[iter %d epoch %2d]---train loss:%.4f\t',i, t, loss_fm_train(i,t));  
-
             % validate
             loss = 0;
             correct_num = 0;
@@ -142,16 +117,10 @@ function [ model, metric ] = capped_fm_batch( training, validation, pars)
 
                 X = test_X(k,:);
                 y = test_Y(k,:);
-%                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
-                y_predict = w0 + W(nz_idx)*X(nz_idx)';
+                nz_idx = find(X);
+                y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
+%                 y_predict = w0 + W(nz_idx)*X(nz_idx)';
 %                 y_predict = sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
-%                 if y_predict > 5
-%                     y_predict = 5;
-%                 end
-%                 
-%                 if y_predict < 1
-%                     y_predict = 1;
-%                 end
                 if strcmp(task, 'regression')
                     err = y_predict - y;
                     loss = loss + err^2;

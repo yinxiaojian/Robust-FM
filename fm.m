@@ -27,6 +27,7 @@ function [ model, metric ] = fm( training, validation, pars )
     loss_fm_train = zeros(iter_num, epoch);
     accuracy_fm = zeros(iter_num, epoch);
 
+    rng('default');
     for i=1:iter_num
 
         tic;
@@ -51,9 +52,10 @@ function [ model, metric ] = fm( training, validation, pars )
 
                 y = Y_train(j,:);
                 nz_idx = find(X);
-                tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:));
-                factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
-                y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
+%                 tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:));
+%                 factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
+%                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
+                y_predict = w0 + W(nz_idx)*X(nz_idx)';
                 
                 idx = (t-1)*num_sample + j;
                 % SGD update
@@ -78,12 +80,12 @@ function [ model, metric ] = fm( training, validation, pars )
                     err = y_predict - y;
                     loss = loss + err^2;
                     
-                    w0_ = learning_rate / (idx + t0) * 2 * err;
+                    w0_ = learning_rate / (t0) * 2 * err;
                     w0 = w0 - w0_;
-                    W_ = learning_rate / (idx + t0) * (2 * err *X(nz_idx) + 2 * reg * W(nz_idx));
+                    W_ = learning_rate / (t0) * (2 * err *X(nz_idx) + 2 * reg * W(nz_idx));
                     W(nz_idx) = W(nz_idx) - W_;
-                    V_ = learning_rate / (idx + t0) * (2 * err * (repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * reg * V(nz_idx,:));
-                    V(nz_idx,:) = V(nz_idx,:) - V_; 
+%                     V_ = learning_rate / (idx + t0) * (2 * err * (repmat(X(nz_idx)',1,factors_num).*(repmat(X(nz_idx)*V(nz_idx,:),length(nz_idx),1)-repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:))) + 2 * reg * V(nz_idx,:));
+%                     V(nz_idx,:) = V(nz_idx,:) - V_; 
                 end
 
             end
@@ -104,9 +106,10 @@ function [ model, metric ] = fm( training, validation, pars )
                 y = test_Y(k,:);
 
                 nz_idx = find(X);
-                tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:)) ;
-                factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
-                y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
+%                 tmp = sum(repmat(X(nz_idx)',1,factors_num).*V(nz_idx,:)) ;
+%                 factor_part = (sum(tmp.^2) - sum(sum(repmat((X(nz_idx)').^2,1,factors_num).*(V(nz_idx,:).^2))))/2;
+%                 y_predict = w0 + W(nz_idx)*X(nz_idx)' + factor_part;
+                y_predict = w0 + W(nz_idx)*X(nz_idx)';
 
                 if strcmp(task, 'binary-classification')
                     

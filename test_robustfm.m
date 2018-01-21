@@ -53,15 +53,15 @@ disp('Training SVM...')
 %% fm
 rng('default');
 
-pars.reg = 1e-3;
+pars.reg = 1e-1;
 pars.factors_num =10;
-pars.epoch = 20;
+pars.epoch = 50;
 
 pars.w0 = 0;
 pars.W = zeros(1,p);
 pars.V = 0.1*randn(p,pars.factors_num);
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e2;
 pars.t0 = 1e5;
 
 disp('Training FM...')
@@ -71,25 +71,25 @@ disp('Training FM...')
 rng('default');
 disp('Training with capped norm...')
 
-pars.alpha = 1e-3;
-pars.beta = 1e1;
+pars.alpha = 1e-2;
+pars.beta = 1e-4;
 
-pars.epoch = 50;
+pars.epoch = 10;
 
 pars.epsilon1 = 0;
 pars.epsilon2 = 10;
 pars.epsilon3 = 0.5;
 
-pars.w0 = 0.1*randn(1);
-pars.W = 0.1*randn(1,p);
-% pars.Z = zeros(p,p);
-pars.Z = generateSPDmatrix(p);
+pars.w0 = 0;
+pars.W = zeros(1, p);
+pars.Z = zeros(p,p);
+% pars.Z = generateSPDmatrix(p);
 
 pars.truncated_k = 10;
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e4;
 pars.t0 = 1e5;
-pars.minibatch = 10;
+pars.minibatch = 4000;
 
 % pars.w0 = model_no_capped.w0;
 % pars.W = model_no_capped.W;
