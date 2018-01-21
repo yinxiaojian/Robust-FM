@@ -71,7 +71,7 @@ disp('Training FM...')
 rng('default');
 disp('Training with capped norm...')
 
-pars.alpha = 1e-3;
+pars.alpha = 0;
 pars.beta = 1e1;
 
 pars.epoch = 50;
@@ -87,9 +87,8 @@ pars.Z = generateSPDmatrix(p);
 
 pars.truncated_k = 10;
 
-pars.learning_rate = 1e3;
+pars.learning_rate = 1e4;
 pars.t0 = 1e5;
-pars.minibatch = 10;
 
 % pars.w0 = model_no_capped.w0;
 % pars.W = model_no_capped.W;

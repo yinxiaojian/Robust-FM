@@ -59,13 +59,9 @@ function [ model, metric ] = capped_fm( training, validation, pars)
             for j=1:num_sample
 
                 X = X_train(j,:);
-                if strcmp(task, 'binary-classification')
-                    y = Y_train(j,:);
-                end
-
-                if strcmp(task, 'binary-classification')
-                    y_predict = w0 + W*X' + sum(sum(X'*X.*Z));
-                end
+                y = Y_train(j,:);
+                nz_idx = find(X);
+                y_predict = w0 + W(nz_idx)*X(nz_idx)' + sum(sum(X(nz_idx)'*X(nz_idx).*Z(nz_idx,nz_idx)));
 
                 idx = (t-1)*num_sample + j;
                 
@@ -90,8 +86,8 @@ function [ model, metric ] = capped_fm( training, validation, pars)
                     if d ~=0
                         w0_ = learning_rate / (idx + t0)*(-y);
                         w0 = w0 - w0_;
-                        W_ = learning_rate / (idx + t0) * (-y*X + alpha * W);
-                        W = W - W_;
+                        W_ = learning_rate / (idx + t0) * (-y*X(nz_idx) + alpha * W);
+                        W(nz_idx) = W(nz_idx)- W_;
                         
                         % truncated SVD
                         [U,~,r] = truncated_svd(Z, epsilon3);
